@@ -66,5 +66,4 @@ git commit -m           提交暂存区的文件到本地仓库
 2.然后一直按回车就可以了
 3.在文件夹中(C:\Users\Administrator\.ssh)找到文件
 4.打开id_rsa.pub文件粘贴里面的代码到SSH密钥中
-
 ```
