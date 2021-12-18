@@ -47,6 +47,8 @@ Staged:暂存状态
 
 初始化项目              git init
 克隆远程仓库            git clone [url]
+    若clone显示连接超时，可以把克隆链接前面的https换成git
+    
 git add .               添加所有文件到暂存区
 git commit -m           提交暂存区的文件到本地仓库
 
