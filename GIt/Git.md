@@ -49,6 +49,7 @@ Staged:暂存状态
 克隆远程仓库            git clone [url]
     1.若clone显示连接超时，可以把克隆链接前面的https换成git
     2.当项目clone下来后要把.git文件夹的config文件里面的链接重新改回https
+    3.连接GitHub超时还是要修改hosts文件配置
     
 git add .               添加所有文件到暂存区
 git commit -m           提交暂存区的文件到本地仓库
