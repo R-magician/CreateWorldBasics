@@ -1,0 +1,51 @@
+/* 头部 */
+/* 搜索框 */
+.header .search{
+  color: rgb(107, 106, 106);
+  width: 80%;
+  border: 2px solid #333;
+  height: 60rpx;
+  line-height: 60rpx;
+  border-radius: 10rpx;
+  padding-left: 20rpx;
+  margin: auto;
+  margin-top: 20rpx;
+}
+.bideoItem{
+  display: flex;
+  justify-content:center ;
+  margin-top: 20rpx;
+}
+.view_div{
+  width: 90%;
+  margin-bottom: 30rpx;
+}
+.bideoItem video{
+  margin-top: 10rpx;
+  width: 100%;
+  border-radius:20rpx 20rpx 0 0;
+}
+.bideoItem .title{
+  font-size: 24rpx;
+  border:1px solid rgb(107, 106, 106);
+  margin-top: -15rpx;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 50rpx;
+  line-height: 50rpx;
+  padding-left: 20rpx;
+  border-radius:0 0 20rpx 20rpx;
+}
+/* 换一批 */
+.hyp{
+  position: fixed;
+  bottom: 100rpx;
+  right: 40rpx;
+  border:1px solid #333;
+  background-color: white;
+  padding: 5rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+}

@@ -1,0 +1,23 @@
+<view class="videoContainer">
+    <!-- 头部区 -->
+    <view class="header">
+      <view class="search">
+        搜索视频
+      </view>
+    </view>
+    <!-- 视频列表 -->
+    <scroll-view class="videoScroll" scroll-y>
+      <view class="bideoItem" wx:for="{{videoList}}" wx:key="id">
+        <view class="view_div">
+          <video src="{{item.urlObj[0].url}}"
+            id="{{item.data.vid}}"
+            poster="{{item.data.coverUrl}}"></video>
+          <view class="title">{{item.data.title}}</view>
+        </view>
+      </view>
+    </scroll-view>
+    <!-- 换一批 -->
+    <view class="hyp" bindtap="hypf">
+      换一批
+    </view>
+</view>

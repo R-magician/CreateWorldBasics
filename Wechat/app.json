@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/video/video",
+    "pages/personal/personal",
+    "pages/index/index",
+    "pages/login/login"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#fdfc52",
+    "navigationBarTitleText": "蜜蜂",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#333",
+    "selectedColor": "#fdc052",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "主页",
+        "iconPath": "/static/tabBer/Home.png",
+        "selectedIconPath": "/static/tabBer/HomeAction.png"
+      },
+      {
+        "pagePath": "pages/video/video",
+        "text": "视频",
+        "iconPath": "/static/tabBer/Video.png",
+        "selectedIconPath": "/static/tabBer/VideoAction.png"
+      },
+      {
+        "pagePath": "pages/personal/personal",
+        "text": "个人",
+        "iconPath": "/static/tabBer/My.png",
+        "selectedIconPath": "/static/tabBer/MyAction.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

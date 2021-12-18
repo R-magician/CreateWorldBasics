@@ -1,0 +1,35 @@
+/* log */
+.log{
+  width: 100%;
+  height: 500rpx;
+  text-align: center;
+}
+.log .iconfont{
+  width: 200rpx;
+  height: 200rpx;
+  border-radius: 50%;
+  text-align: center;
+  background-color: #fdfc52;
+  margin-top: 150rpx;
+}
+
+/* 登录表单 */
+.loginFrom{
+  width: 100%;
+}
+.inputClass{
+  width: 70%;
+  height: 80rpx ;
+  line-height: 80rpx;
+  border: 1px solid #333;
+  border-radius: 20rpx;
+  padding-left: 20rpx;
+  margin: auto;
+  margin-bottom: 40rpx;
+}
+.buttonClass{
+  background-color:#fdfc52 ;
+  width: 70% !important;
+  margin-bottom: 20rpx;
+  border-radius: 20rpx;
+}

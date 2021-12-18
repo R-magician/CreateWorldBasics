@@ -1,0 +1,14 @@
+<view class="logContainer">
+  <!-- 软件log -->
+  <view class="log">
+    <image class="iconfont" src="/static/img/log.png"></image>
+  </view>
+  <!-- 登录表单 -->
+  <view class="loginFrom">
+    <input class="inputClass" placeholder="手机账号/邮箱" model:value="{{phone}}" maxlength="11" />
+    <input password class="inputClass" placeholder="密码"  model:value="{{password}}" />
+    <button class="buttonClass" bindtap="login">登录</button>
+    <button class="buttonClass" >注册</button>
+    <button class="buttonClass" >忘记密码</button>
+  </view>
+</view>

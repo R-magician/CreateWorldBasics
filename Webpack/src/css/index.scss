@@ -1,0 +1,14 @@
+$w:100px;
+$h:100px;
+.one{
+  width: $w * 2;
+  height: $h * 2;
+  background:aqua;
+  border:2px solid black;
+  .two{
+    width: $w;
+    height: $h;
+    background: aliceblue;
+    
+  }
+}

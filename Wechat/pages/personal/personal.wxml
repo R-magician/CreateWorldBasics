@@ -1,0 +1,43 @@
+
+<view class="body"> 
+    <!-- 卡片个人信息 -->
+    <view class="top">
+      <image class="photo" src="{{userInfo.avatarUrl?userInfo.avatarUrl:'/static/img/bee.jpg'}}" bindtap="tologin"></image>
+      <view class="headPortrai"
+        bindtouchstart="startM"
+        bindtouchmove="moveM"
+        bindtouchend="endM"
+        style="transform: {{coverTransform}};transition:{{coverTransition}};">
+        <view class="userName">{{userInfo.nickname?userInfo.nickname:" ~ 请登录"}}</view>
+        <view class="userInfo">
+          <view class="info">0关注</view>
+          <view class="info">0粉丝</view>
+          <view class="info">Lv.8</view>
+        </view>
+      </view>
+
+    </view>
+
+    <!-- 用户信息 -->
+    <view class="Below">
+      <!-- 最近播放 -->
+      <view class="recentlyPlayed">
+        <view class="listTitle" bindtap="checkB" >
+          <text id="zou" class="button {{rankingType?'b_action':''}}">周</text>
+          <text id="zong" class="button {{rankingType?'':'b_action'}}">总</text>
+          <view class="right">排行</view>
+        </view>
+        <scroll-view wx:if="{{recentPlayList.length}}" class="scrollView" enable-flex scroll-y>
+          <view class="playList" wx:for="{{recentPlayList}}" wx:key="id">
+            <image src="{{item.song.al.picUrl}}"></image>
+            <view class="info">
+              <view class="title">{{item.song.name}}</view>
+              <view class="name">{{item.song.ar[0].name}}</view>
+            </view>
+          </view>
+        </scroll-view>
+        <view wx:else class="noneView">暂无播放记录</view>
+      </view>
+    </view>
+
+</view>

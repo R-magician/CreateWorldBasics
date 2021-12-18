@@ -1,0 +1,129 @@
+/* 卡片信息 */
+.top{
+  width: 92%;
+  height: 240rpx;
+  margin: auto;
+  margin-top: 130rpx;
+}
+.headPortrai{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #fefebf;
+  border-radius: 30rpx;
+}
+.photo{
+  width: 150rpx;
+  height: 150rpx;
+  position: absolute;
+  border-radius: 50%;
+  left: 50%;
+  transform:translateX(-85rpx) ;
+  top:35rpx;
+  border:10rpx solid #fff;
+  box-shadow:rgb(114, 113, 113) 0 0 20rpx;
+  z-index: 2;
+}
+.userName{
+  font-size: 36rpx;
+  font-weight: 500;
+  margin-top: 90rpx;
+}
+.userInfo{
+  display: flex;
+}
+.userInfo .info{
+  margin: 20rpx 20rpx;
+  font-size: 24rpx;
+}
+
+/* 用户信息 */
+.Below{
+  width: 92%;
+  height: 640rpx;
+  margin: auto;
+}
+/* 听歌排行 */
+.recentlyPlayed{
+  height: 100%;
+  border: 2px solid #9c999d;
+  width: 260rpx;
+  border-radius: 30rpx;
+  font-size: 28rpx;
+  margin-top: 30rpx;
+}
+.listTitle .button{
+  border: 1rpx solid  #9c999d;
+  width: 40rpx;
+  height: 40rpx;
+  display: inline-block;
+  line-height: 40rpx;
+  margin-right: 20rpx;
+  border-radius: 50%;
+  text-align: center;
+}
+.b_action{
+  background-color:#9c999d ;
+}
+.noneView{
+  font-size: 24rpx;
+  padding: 20rpx;
+}
+.recentlyPlayed .listTitle{
+  padding-left: 40rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  border-bottom:2px solid #9c999d;
+  height: 40rpx;
+}
+.listTitle .right{
+  float: right;
+  margin-right: 20rpx;
+}
+.recentlyPlayed .scrollView{
+  height: 548rpx;
+  padding: 10rpx;
+  width: 93%;
+}
+.recentlyPlayed .scrollView .playList{
+  display: flex;
+  padding-top: 5rpx;
+  padding-bottom: 5rpx;
+  border-bottom:1px solid #9c999d;
+}
+.recentlyPlayed .scrollView .playList:last-child{
+  border-bottom:0px;
+}
+.recentlyPlayed .scrollView .playList image{
+ height: 80rpx;
+ width: 80rpx;
+ padding: 10rpx;
+ border-radius: 5rpx;
+}
+.recentlyPlayed .scrollView .playList .info{
+  width: 135rpx;
+  margin-left: 10rpx;
+  font-size: 18rpx;
+  display: flex;
+  flex-direction: column;
+}
+.recentlyPlayed .scrollView .playList .info .title{
+  height: 50rpx;
+  margin-top: 5rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;  /* 设置对齐模式 */
+  -webkit-line-clamp: 2;/* 设置盒子行数 */ 
+}
+.recentlyPlayed .scrollView .playList .info .name{
+  margin-top: 10rpx;
+  height: 30rpx;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; 
+  font-size: 20rpx;
+}
