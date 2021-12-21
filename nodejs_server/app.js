@@ -1,6 +1,12 @@
 const express = require('express');
 const app = express();
 
+const Mlog = (req) =>{
+    console.log(req.method,req.url,Date.now())
+}
+
+app.use(Mlog)
+
 app.get('/',(req,res)=>{
     res.send("Hello World!")
 })
