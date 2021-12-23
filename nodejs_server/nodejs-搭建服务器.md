@@ -8,14 +8,16 @@
 
 
 ### 项目结构
- - apidoc       接口文档
- - bin          入口文件
- - config       数据库操作配置
- - model        定义sql语句并操作数据库
- - public       存放静态资源文件
+ - app.js       项目入口
+ - config       项目配置
+   - config.default.js
+ - controller   解析用户输入，处理返回相应的结果
+ - model        数据持久层
+ - middleware   用于编写中间件，非路由的
  - routers      存放路由文件
- - service      存放业务操作
- - views        存放引擎模板
+ - public       存放静态资源文件
+ - util         工具模块
+ - validator    验证请求数据格式
  - app.js       入口js
 
 
@@ -325,7 +327,131 @@ https://www.expressjs.com.cn/resources/middleware.html
  - 跨域处理
    - 可以在服务端设置 CORS 允许客户端跨域资源请求
 
+### 初步搭建
+ - 配置常用的中间件
+   - 解析请求体
+     - express.json()
+       - app.use(express.json())
+     - express.urlencoded()
+       - app.use(express.urlencoded())
+   - 日志输出
+     - morgan()
+       - const morgan = require('morgan');
+       - app.use(morgan())
+   - 为客户端提供跨域资源请求
+     - cors()
+       - const cors = require('cors');
+       - app.use(cors())
 
+### 项目路由设计
+ - 在主页面下新建router文件夹
+ - router文件夹
+   - index.js
+     - 管理下面的不同类别的路由
+     - 例如：router.use('/users',require('./user'))
+   - 其他类别的路由配置
+     - 开始写路由
 
+### 提取控制器
+ - 在 controller 文件夹进行
+   - 提取 router 中的函数到 controller 进行处理
 
-  
+### 安装 MongoDB 数据库
+```
+https://www.runoob.com/mongodb/mongodb-window-install.html
+```
+
+### Mongoose 数据库
+```javascript
+//文档：https://mongoosejs.com/
+npm i mongoose
+
+const mongoose = require('mongoose');
+
+//连接MongoDB数据库
+mongoose.connect('mongodb://localhost:27017/test',{
+  useNewUrlParser:true,
+  useUnifiedTopology:true
+});
+
+const db = mongoose.connection
+
+//当连接数据库失败的时候
+db.on('error',(err)=>{
+  console.log('数据库连接失败',err)
+})
+
+//当连接数据成功的时候
+db.once('open',()=>{
+  console.log('数据库连接成功')
+})
+
+//创建一个数据模型
+const Cat = mongoose.model('Cat',{name:String})
+
+//根据模型建立一个对象
+const kitty = new Cat({name:"ciupt"})
+
+//将数据保存到数据库当中
+kitty.save().then(()=>console.log("meow"))
+```
+
+### Mongoose 数据库 数据操作
+```javascript
+//引入表字段模型
+const User = require('../model')
+
+//保存数据到数据库
+const user = new User(req.body.user)
+await user.save()
+
+//查询数据库
+const user = await User.findOne({email:value})
+
+```
+
+### Express 数据验证(express-validator)[中间件]
+```javascript
+npm install express-validator
+//基本使用：https://express-validator.github.io/docs/
+
+//在路由页面引入
+const { body, validationResult } = require('express-validator');
+
+//用户相关路由
+router.get('/register',[//1.配置验证规则
+    //验证传过来的数据user.username不能为空
+    body('user.username')
+      .notEmpty().withMessage('这里可以定制错误消息')
+      .bail()//这里验证失败，后面就可以不用验证了
+      .custom(async value=>{//自定义错误
+            //按邮箱查询数据库是否有该值
+            const user = await User.findOne({username:value})
+            if(user){
+                return Promise.reject('邮箱已存在')
+            }
+        }),
+    //验证传过来的数据user.email不能为空
+    body('user.email')
+      .notEmpty()
+      .isEmail().withMessage("邮箱格式不正确"),
+],(req,res,next)=>{//2.判断验证结果
+  const errors = validationResult(req)
+
+  //验证不通过
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  //验证通过
+  next()
+},userCtrl.register)//3.通过验证，执行具体控制器处理
+
+//上面这一大坨可以单独提出了，放到validator文件夹里面
+//详情请看项目
+```
+
+### 基于 JWT 的身份认证
+```
+
+```

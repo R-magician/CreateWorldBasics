@@ -1,16 +1,33 @@
 const express = require('express');
+const morgan = require('morgan');
+const cors = require('cors');
+
+const router = require('./router')
+//挂载统一处理错误中间件
+const errorHandler = require('./middleware/error-handler')
+
+//引入数据库
+require('./model')
+
+
 const app = express();
 
-const Mlog = (req) =>{
-    console.log(req.method,req.url,Date.now())
-}
+//服务使用的中间件
+app.use(morgan('dev'))
+app.use(express.json())
+app.use(express.urlencoded())
+app.use(cors())
 
-app.use(Mlog)
+//设置端口号
+const PORT = process.env.PORT || 3000
 
-app.get('/',(req,res)=>{
-    res.send("Hello World!")
-})
+//挂载用户路由
+app.use('/api',router)
+
+//挂载统一处理服务端错误中间件
+app.use(errorHandler())
+
 //启动服务端口号
-app.listen(3000,()=>{
+app.listen(PORT,()=>{
     console.log('服务已启动')
 })
