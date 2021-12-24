@@ -327,6 +327,7 @@ https://www.expressjs.com.cn/resources/middleware.html
  - 跨域处理
    - 可以在服务端设置 CORS 允许客户端跨域资源请求
 
+
 ### 初步搭建
  - 配置常用的中间件
    - 解析请求体
@@ -343,6 +344,7 @@ https://www.expressjs.com.cn/resources/middleware.html
        - const cors = require('cors');
        - app.use(cors())
 
+
 ### 项目路由设计
  - 在主页面下新建router文件夹
  - router文件夹
@@ -352,14 +354,17 @@ https://www.expressjs.com.cn/resources/middleware.html
    - 其他类别的路由配置
      - 开始写路由
 
+
 ### 提取控制器
  - 在 controller 文件夹进行
    - 提取 router 中的函数到 controller 进行处理
+
 
 ### 安装 MongoDB 数据库
 ```
 https://www.runoob.com/mongodb/mongodb-window-install.html
 ```
+
 
 ### Mongoose 数据库
 ```javascript
@@ -395,6 +400,7 @@ const kitty = new Cat({name:"ciupt"})
 //将数据保存到数据库当中
 kitty.save().then(()=>console.log("meow"))
 ```
+
 
 ### Mongoose 数据库 数据操作
 ```javascript
@@ -451,7 +457,105 @@ router.get('/register',[//1.配置验证规则
 //详情请看项目
 ```
 
-### 基于 JWT 的身份认证
-```
 
+### 基于 JWT 的身份认证
+服务器用户认证流程
+ - 用户向服务器发送用户名和密码
+ - 服务器验证通过后，在当前对话（session）里面保存相关数据，比如用户角色、登录时间
+ - 服务器向用户返回一个session_id,写入用户的Cookie
+ - 用户随后的每一次请求，都会通过Cookie,将session_id 传回服务器
+ - 服务器收到session_id,找到之前保存的数据，由此得知用户的身份
+ - 这种模块扩展性不好（单机没问题，服务器集群，就要求session数据共享）
+
+JWT 将所有数据保存在客户端
+ - 服务器认证后生成一个JSON对象，发回给用户
+ - 用户与服务器通信的时候，都要发回这个JSON对象，服务器完全只靠这个对象认证用户身份
+ - 为了防止用户修改数据，服务器生成对象的时候会加上签名
+
+JWT 的数据结构
+ - 它是一个很长的字符串，中间用点（.）分隔成三个部分
+   - Header.Payload.Signature
+ - 他内部没有换行
+ - JWT 的三个部分依次如下：
+   - Header( 头部 )
+     - 是一个 JSON 对象 ,描述 JWT 元数据
+     - {'alg':'HS256','typ':'JWT'}
+       - alg:签名的算法
+       - typ:这个令牌(token)的类型(type)
+       - 默认是 HMAC SHA256
+     - 将上面的数据进行 Base64URL 转成字符串
+   - Payload( 负载 )
+     - 也是一个 JSON 对象,用来存放实际传递的数据
+     - JWT 规定了7个官方字段
+       - iss (issuer):签发人
+       - exp (expiration time):过期时间
+       - sub (subject):主题
+       - aud (audience):受众
+       - nbf (Not Before):生效时间
+       - iat (Issued At):签发时间
+       - jti (JWT ID):编号
+     - 除了官方字段，还可以在这个部分定义私有字段
+     - JWT 默认是不加密，任何人都可以读到，建议不要把私密信息返回
+     - 将上面的数据进行 Base64URL 转成字符串
+   - Signature( 签名 )
+     - 对前面两部分的签名，防止数据被篡改
+     - 需要指定一个密钥。这个密钥只有服务器才知道，不能泄露给用户
+     - 用Header里面指定的签名算法，按公式产生签名
+          ```
+            HMASCHA256(
+              base64UrlEncode(header) + '.' +
+              base64UrlEncode(payload),
+              secret
+            )
+          ```
+     - 算出签名后把Header、Payload、Signature三个部分拼成一个字符串每个部分之间用点(.)分割
+
+JWT 的使用方式
+ - 客户端收到服务器返回的 JWT ,可以存储在Cookic里面,也可以存储在LocalStorage
+ - 此后每次与服务器通信都要带上这个JWT
+ - 可以把他放在Cookie里面自动发送，但是这样不能跨域
+ - 更好的做法是放在HTTP请求头信息里面
+   - Authorization：Bearer<token>
+ - 跨域的时候，JWT就放在POST请求数据体里面
+
+JWT 的几个特点
+ - JWT 默认是不加密，但是也可以加密。生成原始Token后,可以用密钥在加密一次
+ - JWT 不加密情况下，不能将私密数据写入JWT中
+ - JWT 不加可以用于认证，也可以用于交换信息
+ - JWT 最大的缺点，无法在使用过程中废止某个token，或者更改token的权限
+   - 一旦签发了 JWT 在到期之前都始终有效，除非服务器部署有额外的逻辑
+ - JWT 包含了认证信息，一旦泄露，任何人都可以获得该令牌的所有权
+   - 为了减少盗用，JWT 的有效期应该设置得比较短
+   - 对于一些比较重要的权限，使用时应该再次对用户进行认证
+ - 为了减少盗用，JWT 不应该使用HTTP协议明码传输，要使用HTTPS协议传输
+
+### 使用 JWT
+```javascript
+npm i jsonwebtoken 
+
+//生成jwt
+const token = jwt.sign({
+    foo:'bar'//传递数据
+},'计算签名的字符')
+
+//异步生成jwt
+jwt.sign({
+    foo:'bar'//传递数据
+},'计算签名的字符',(err,token)=>{
+    if(err){
+        return console.log('生成 token 失败')
+    }
+    console.log(token)
+})
+
+//验证jwt 会得到传递数据 {foo:'bar'}
+const ret = jwt.verify(token,"sign中计算签名的字符")
+
+//异步验证
+jwt.verify(token,"sign中计算签名的字符",(err,ret)=>{
+    if(err){
+        return console.log('token 验证失败')
+    }
+    console.log(ret)
+})
 ```
