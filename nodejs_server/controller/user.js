@@ -1,6 +1,24 @@
 //具体操作的函数
 
 const {User} = require('../model')
+const jwt = require('../util/jwt')
+const {jwtSecret} = require('../config/config.default')
+
+exports.login = async(req,res,next) =>{
+    try{
+        //这里的uder是通过验证中间件的时候挂载的
+        const user = req.user.toJSON()
+        //生成token
+        const token = await jwt.sign({
+            userid:user._id
+        },jwtSecret)
+
+        res.status(200).json({...user,token})
+    }catch(err){
+        next(err)
+    }
+}
+
 //用户注册
 exports.register = async(req,res,next)=>{
     try{
@@ -15,6 +33,17 @@ exports.register = async(req,res,next)=>{
 
         //返回成功信息
         res.status(201).json({user})
+    }catch(err){
+        next(err)
+    }
+}
+
+//获取当前用户
+exports.getUser = async(req,res,next) =>{
+    try{
+        res.status(201).json({
+            user:req.user
+        })
     }catch(err){
         next(err)
     }

@@ -530,6 +530,7 @@ JWT 的几个特点
  - 为了减少盗用，JWT 不应该使用HTTP协议明码传输，要使用HTTPS协议传输
 
 ### 使用 JWT
+ - 在项目中最好使用异步的方式
 ```javascript
 npm i jsonwebtoken 
 
@@ -558,4 +559,5 @@ jwt.verify(token,"sign中计算签名的字符",(err,ret)=>{
     }
     console.log(ret)
 })
-```
+``` 
+ 
