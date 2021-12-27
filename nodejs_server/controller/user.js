@@ -11,7 +11,9 @@ exports.login = async(req,res,next) =>{
         //生成token
         const token = await jwt.sign({
             userid:user._id
-        },jwtSecret)
+        },jwtSecret,{
+            expiresIn:60 * 60//设置token过期时间3600秒
+        })
 
         res.status(200).json({...user,token})
     }catch(err){

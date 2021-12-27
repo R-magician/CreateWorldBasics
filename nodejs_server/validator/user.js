@@ -1,7 +1,9 @@
 /**
  * 用户数据相关的验证
+ * body--验证get请求里面的参数
+ * param--验证post请求的参数
  */
-const {body} = require('express-validator');
+const {body,param} = require('express-validator');
 
 const validate = require('../middleware/validate')
 const {User} = require('../model')

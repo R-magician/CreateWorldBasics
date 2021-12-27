@@ -99,6 +99,7 @@ app.get('/',(req,res)=>{
     res.sendFile()                //发送文件字节流
 
     res.send("Hello World!")      //会结束响应
+    res.send('<h1>Hello</h1>')    //发送HTML格式文本
     res.send(Buffer.from('whoop'))//发送一个Buffer
     res.send({id:001})            //返回一个对象
     res.status(404).send('not')   //设置响应码并返回数据 
@@ -414,6 +415,23 @@ await user.save()
 //查询数据库
 const user = await User.findOne({email:value})
 
+//获取总数据
+const artCount = await Article.countDocuments()
+
+//数据分页
+const artilces = await Article.find({查询字段:字段值})//查询条件
+                              .skip()//跳过多少条
+                              .limit()//取多少条
+                              .sort({//排序
+                                //-1:倒序,1郑旭
+                                排序字段:-1
+                              })
+
+//删除文章
+const article = req.article
+await article.remove()
+
+
 ```
 
 ### Express 数据验证(express-validator)[中间件]
@@ -547,6 +565,8 @@ jwt.sign({
         return console.log('生成 token 失败')
     }
     console.log(token)
+},{
+  expiresIn:60 * 60//设置token过期时间3600秒
 })
 
 //验证jwt 会得到传递数据 {foo:'bar'}
@@ -561,3 +581,8 @@ jwt.verify(token,"sign中计算签名的字符",(err,ret)=>{
 })
 ``` 
  
+
+ ### Express 与传统Web应用
+ ```
+
+ ``` 
