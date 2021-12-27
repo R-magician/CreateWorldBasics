@@ -143,13 +143,15 @@ vite官网：https://vitejs.cn
 
 ```
 ## 创建工程
-npm init vite-app <project-name>
-## 进入工程目录
-cd <project-name>
-## 安装依赖
-npm install
-## 运行
-npm run dev
+# npm 6.x
+$ npm init vite@latest <project-name> --template vue
+
+# npm 7+，需要加上额外的双短横线
+$ npm init vite@latest <project-name> -- --template vue
+
+$ cd <project-name>
+$ npm install
+$ npm run dev
 ```
 
 ### Vue3--main.js
