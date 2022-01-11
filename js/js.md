@@ -99,5 +99,5 @@
    - str.trim().length ==0
 
 ### 数组类型
- - array instanceof Array                       判断变量是数组
- - obj instanceof object                        判断变量是对象     
+ - array instanceof Array                       判断变量是数组,返回布尔值
+ - obj instanceof object                        判断变量是对象,返回布尔值     
