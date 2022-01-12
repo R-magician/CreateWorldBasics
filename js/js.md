@@ -101,3 +101,226 @@
 ### 数组类型
  - array instanceof Array                       判断变量是数组,返回布尔值
  - obj instanceof object                        判断变量是对象,返回布尔值     
+
+### 原型链上绑定方法
+```javascript
+//在数组上绑定一个获取最小值的方法
+Array.prototype.min = ()=>{
+
+}
+```
+
+### apply call 与 bind
+ - apply(绑定的对象,[参数])
+   - 改变执行主体,就使用apply方法
+ - call(绑定的对象,参数)
+   - 参数不是数组的时候,就使用call方法
+ - apply，call和bind都是 用来改变this的指向
+ - apply和call会让当前函数立即执行，而bind会返回一个函数，后续需要的时候再调用执行
+ - call接受多个参数，而apply接受的是一个数组
+ - bind也是用于改变上下文的指向，它和call一样，接受多个参数
+ - bind和apply，call的区别在于，bind返回一个方法，用于后面调用，apply和call会直接执行
+
+### 函数的定义与调用
+ - 函数实际上也是一种对象，每个函数都是Function类型的实例
+ - 函数定义大体可以分三种
+   - 函数声明             function aa(){}
+   - 函数表达式           let fn =()=>{}
+   - Function构造函数     let fn = new Function(参数1,参数2,执行函数体)
+     - 构造函数的其中的参数除了最后一个参数是执行的函数体，其他的都是参数
+     - Function构造函数声明的函数是顶级函数，就是全局作用域下面的函数
+ - 代码模块化
+   - 只给外部提供接口，具体的实现方法不给予展示
+ - 函数声明和函数表达式的区别
+   - 对应函数名称，函数表达式可有可无
+   - 对应函数提升，函数声明存在函数提升；函数表达式，不存在函数提升
+ - 构造器调用模式
+   - 构造器调用模式会定义一个函数，在函数定义实例属性，在原型上定义函数，然后通过new操作符生成函数实例，在通过实例调用原型上定义的函数
+ - 自执行函数
+   - (function(){console.log('1111')})()
+   - (function(){console.log('1111')}())
+
+### 函数参数
+ - 形参 -- 出现在函数定义中，只能在主体函数中使用
+ - 实参 -- 出现在调用函数处
+ - 当传入数组时，在函数体中改变数组的值，外部传入数组变量也会改变
+   - 数组的引用数据类型是地址
+ - arguments对象的性质
+   - arguments对象是所有函数具有的一个内置局部变量
+   - 表示的是函数实际接收的参数，是一个类数组，只能使用length()方法，其他的方法不能用
+   - arguments.length() 获取调用函数传入的参数的个数
+   - 不会随着函数的处理而改变
+   - 若函数有接收值，会与arguments相互绑定
+   - arguments.callee() 相当于当前函数的调用
+     - 适用于匿名函数的递归调用
+
+### 闭包
+ - 用于许多变量和绑定了这些变量执行上下文环境的表达式，通常是一个函数(理解不了可以看下面)
+   - 函数拥有外部变量的引用，在函数返回时该变量仍然处于活跃状态
+   - 闭包作为一个函数返回时，上下文环境不会被销毁，仍处于执行上下文环境中
+   ```
+    function fn(){
+      let max = 10;
+      return function bar(x){
+        if(x > max){console.log(x)}
+      }
+    }
+    var fl = fn()
+    fl(11)//这里的传参是直接传给返回函数的
+   ``` 
+ - 闭包最大的缺点，会导致数据一直在增长
+ - 定时器和for循环使用会出现意想不到的情况
+   - 第一种解决：将for中的var i = 0 , 改为 let  i = 0   ES6的方式
+   - 第二种解决：将 setTimeout改为闭包方式   ES5 用闭包解决
+ - 作用域链问题
+   - 闭包会导致作用域链问题
+   - 解决方法：改变this的指向
+ - 闭包的优点
+   - 保护函数内变量的安全，实现封装
+   - 防止变量流入其他环境发生命名冲突，造成环境污染
+   - 在适当的时候，可以在内存中维护变量并缓存，提高执行效率
+ - 闭包的缺点
+   - 内存消耗
+   - 内存泄漏
+
+### this使用详解
+ - 一般来说this的指向是函数调用者
+ - 在构造函数中 this 是当前类的一个实例
+ - call apply bind ,this是第一个参数
+ - 箭头函数 this 指向：箭头函数没有自己的this，要看其外层是否有函数，如果有就是指向外层的this，如果没有就是指向window
+ - 当函数没有所属调用时，this指向的是全局对象，比如说：***匿名函数***
+ - this 重新绑定对象
+   - call apply bind
+ - 闭包内部的this关键字无法访问到外部变量函数的this变量
+
+### 创建对象
+```javascript
+ //基于Objiect()构造函数
+ //适用于单个创建对象
+  let obj = new Object();
+  obj.name = "ciupt"
+
+ //字面量
+ //适用于单个创建对象
+  let obj = {
+    name:'ciupt'
+  }
+
+ //基于工厂方法模式
+ //抽象出创建对象和属性赋值的过程，值对外暴露出需要设置的属性值
+ //用于生成多个同种类型的对象
+ //可以减少重复代码，但是实例都是Obj类型，无法更近一步区分具体类型
+  //对外暴露name,age,address参数
+  function createPerson(name,age,address){
+    //生成一个对象，并添加各种属性方法
+    let obj = new Object();
+    obj[name]=name;
+    obj[age]=age;
+    obj[address]=address;
+    obj.caoz = () =>{
+      //一系列的操作
+    }
+    return obj;
+  }
+  let p = createPerson('ciupt',18,{name:'重庆',code:'000000'})
+
+ //基于构造函数
+ //构造函数创建对象可以确定器所属类型,解决了工厂方法模式出现的问题
+ //构造函数创建的对象,相同实例的函数是不一样的
+  function Obj(name){
+    this.name = name;
+    this.getName = () =>{
+      return this.name
+    }
+  }
+  let p = new Obj('ciupt');
+
+ //基于原型对象的模式
+ //基于原型对象模式是将所有函数和属性都封装在prototype属性上
+  function obj(){
+    obj.prototype.name="ciupt";
+    obj.prototype.age=18;
+    obj.prototype.getName = () =>{
+      return this.name;
+    }
+  }
+  let p = new obj();
+  let p1 = new obj();
+  console.log(p.name === p1.name)     //true
+  //通过上面的代码可以发现，使用基于原型对象的模式创建的实例，其属性都是相等的
+  //不同的实例会共享原型上的属性和函数
+  //改变其中一个实例的属性值，便会引起其他实例的属性值的变化
+
+ //构造函数和原型混合的模式
+ //狗函数和原型混合模式是目前最常见的创建自定义类型对象的方式
+ //构造函数定义实例的属性
+ //原型对象定义实例共享的属性和函数
+ //这样每个实例都能拥有自己的属性值，同时实例还能共享函数的引用
+  //构造函数中定义实例属性
+  function obj(name,age){
+    this.name = name;
+    this.age = age;
+  }
+  //原型中添加实例共享函数
+  obj.prototype.getName = () =>{
+    return this.name;
+  }
+  
+  //生成实例
+  let p = new obj('ciupt',18);
+  let p = new obj('R魔法师',25);
+  //这样可以改变一个实例的属性不会影响另一个实例的属性
+  //不同的实例共享相同的函数，因此在比较时是相等的
+
+ //基于动态原型模式
+ //是将原型对象放在构造函数的内部，通过变量进行控制，只在第一次生成实例的时候进行原型的设置
+ //动态模式的模式相当于懒汉模式，只在生成实例时设置原型对象，但是功能与构造函数和原型混合模式是相同的
+  function obj(name){
+    this.name = name;
+    //如果对象中_initialized为undefined，则表明没有给obj的原型对象添加函数
+    //_initialized是用户自定义的标记变量用来记录第一次进行原型的设置
+    if(typeof obj._initialized === "undefined"){
+      obj.prototype.getName = () =>{
+        return this.name;
+      }
+      obj._initialized = true;
+    }
+  }
+  //生成实例
+  let p = new obj('ciupt',18);
+
+
+//创建对象根据自己的实际情况使用
+```
+
+### 对象的克隆
+ - 将某个变量的值复制到另一个变量的过程
+ - 赋值对于基本类型的没影响
+ - 对引用地址的变量来说，多个变量实际指向的都是同一个值
+ - 浅克隆(赋值)
+   - 引用数据类型如果执行的是浅克隆(赋值)，对克隆后值的修改会影响到原始值
+   - 浅克隆值克隆对象最外层的属性，如果对象存在更深层的属性；则不进行处理，这会导致克隆对象和原始对象的深层属性仍然在同一块内存。
+ - 深克隆
+   - 克隆的对象和原始对象相互独立，不会彼此影响
+   - 使用 JSON 的序列化和反序列化
+     - JSON.parse(JSON.stringify(origin))     先序列号为字符串，在序列化成对象
+     - 无法实现对函数，RegExp等特殊对象的
+     - 对象的 constructor 会被抛弃，所有的构造函数会指向Object，原型链会破裂
+     - 对象中如果存在循环引用，会抛异常
+   - 自定义实现深克隆
+   ```
+    function deepClone(obj) {
+     let newObj = Array.isArray(obj) ? [] : {}
+     if (obj && typeof obj === "object") {
+         for (let key in obj) {
+             if (obj.hasOwnProperty(key)) {
+                 newObj[key] = (obj && typeof obj[key] === 'object') ? deepClone(obj[key]) : obj[key];
+             }
+         }
+     } 
+     return newObj
+    }
+    const newObj = deepClone(oldObj));
+   ```
+
+### 原型对象
