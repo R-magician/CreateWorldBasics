@@ -324,3 +324,318 @@ Array.prototype.min = ()=>{
    ```
 
 ### 原型对象
+ - 每一个函数在创建时都会被赋予一个prototype属性，它指向函数的原型对象
+ - 这个对象可以包含所有实例共享的属性和函数
+ - 在使用prototype属性后，就可以将实例共享的属性和函数抽离出构造函数，添加到prototype属性中
+  ```javascript
+    //构造函数中定义实例属性
+    function obj(name,age){
+      this.name = name;
+      this.age = age;
+    }
+    //原型中添加实例共享函数
+    obj.prototype.getName = () =>{
+      return this.name;
+    }
+
+    //生成实例
+    let p = new obj('ciupt',18);
+    let p1 = new obj('R魔法师',25);
+    console.log(p.getName===p1.getName)   //true
+  ```
+ - 实例共享的getName函数添加在了obj.prototype属性上，通过测试发现不同实例中的getName属性是相等的
+- 原型对象，构造函数和实例
+  - 构造函数的prototype属性会指向它的原型对象，而通过构造函数生成具体的实例
+  - 构造函数：function obj(name,age){this.name = name;this.age = age;}
+  - 实例：let p1 = new obj('R魔法师',25);
+  - 原型对象：obj.prototype
+  - 它们之间的关系
+    - 每个函数在创建的时候都会被赋予一个prototype属性
+    - 它指向函数的原型对象
+    - 默认情况下所有原型对象都会增加一个constructor属性，指向prototype属性所在的函数，即构造函数
+    - 先有声明构造函数 再有原型(绑定方法) 再有实例
+  - __proto__属性
+    - 当我们通过new操作符调用构造函数创建一个实例时，具有一个__proto__属性
+    - 它指向构造函数的原型对象，因此__proto__属性可以看做是一个连接实例与构造函数的桥梁
+  - 实例的读取顺序
+    - 先在实例的本身去找
+    - 如果没找到，就沿着原型对象寻找
+  - 重写原型对象
+    - 之前是分开写的，可以统一写
+    - obj.prototype={constructor:obj,name,age}
+    - constructor:obj，这个一定要加；使用上面这种方法就会没有constructor属性，所有要手动加
+    - constructor 指向 原型对象
+
+### 原型链
+ - 对象每个实例都具有一个__proto__属性，指向的是构造函数的原型对象
+ - 在js中几乎所有对象都具有__proto__属性
+ - 可以在原型链上面查找实例上可以调用的方法
+ - 由__proto__属性链接而成的链路构成了js的原型链
+ - 原型链的顶端是Object.prototype,它的__proto__属性为null
+ ```javascript
+    function obj(){}
+    let o = new obj()
+    console.log(o.__proto__ === o.prototype) //true
+    console.log(o.__proto__.__proto__ === o.prototype.__proto__=== o.prototype)//true
+ ```
+ - 原型链的特点
+   - 由于原型链的存在，属性查找过程不在只查找自身的原型对象
+   - 它会沿着整个原型链一直向上追溯到Object.prototype
+   - 如果在这期间找到会返回结果(谁先找到谁返回)
+   - 如果没找到则会返回 'undefined'
+   - 如果链上有相同的属性会覆盖
+   - 比如 toString 是 Object 上的方法，可以通过原型链查找
+   - 由于原型链的存在，因此查找的链路越长，对性能影响越大
+ - 属性区分
+   - hasOwnProperty() 是 Object() 构造函数的原型对象提供可以判断属性是否为自身拥有
+   ```javascript
+      function obj(name){his.name = name;}
+      obj.prototype.age = 12;
+      let o = new obj('ciupt');
+      console.log(o.hasOwnProperty('name'))   //true
+      console.log(o.hasOwnProperty('age'))    //false
+   ```
+ - 内置构造函数
+   - Js 中有一些特定的内置构造函数,如：String() Number() Array() Object()
+   - 他们本身的__proto__属性都统一指向 Function.prototype
+ - __proto__属性
+   - 在原型链体系中它很重要
+   - 只有通过它能将原型链串联起来
+
+### 继承
+ - 在不影响父类的情况下使子类具有父类对象的特性
+ - ***原型链继承***
+ ```javascript
+  /**
+   * 原型链继承的优点
+   *    1.简单容易实现
+   *        只需要设置子类的 prototype 属性为父类实例即可
+   *    2.继承关系纯粹
+   *        生成实例既是子类实例也是父类实例
+   *    3.可以通过子类直接访问父类原型链属性和函数
+   * 原型链继承的缺点
+   *    1.子类所有实例将共享父类属性
+   *        如果父类中有个值为 引用数据 类型，那么改变子类某个实例的属性值将会影响其他实例的属性值
+   *        涉及到了深度拷贝
+   *    2.创建子类实现时，无法向父类构造函数传递参数
+   *        通过new操作符创建子类的实例时，会调用子类的构造函数，
+   *        而在子类的构造函数中并没有设置与父类的关联，
+   *        从而导致无法向父类的构造函数传递参数
+   *    3.无法实现多继承
+   *        由于子类的 prototype 属性只能设置一个值，如果设置多个，后面的值会覆盖前面的值
+   *        导致子类只能继承一个父类，从而无法多继承
+   *    4.为子类增加原型对象上的属性和函数时，必须放在 new 父类() 函数之后
+   *        实现继承的冠军语句是  Cat.prototype = new Animal()
+   *        如果想要为子类新增原型对象上的属性和函数，就要在上面语句之后添加
+   *        因为在这个语句之前设置 prototype 属性，后面的语句会重写 prototype 属性导致前面设置全部失效
+   * 
+  */
+  //父类
+  function Animal(name){
+    //自身的属性
+    this.type = "animal";
+    this.name = name;
+    this.sleep = function(){
+      console.log(this.name + "正在睡觉");
+    }
+  }
+
+  //原型链上的属性和方法
+  Animal.prototype.age = 5;
+  Animal.prototype.eat = ()=>{
+    console.log(this.name + "正在吃饭");
+  }
+
+  //子类
+  function Cat(name){
+    this.name = name;
+  }
+
+  //原型链继承
+  Cat.prototype = new Animal()
+
+  //将 Cat 的构造函数指向自身
+  //如果不将Cat原型对象的 constructor 属性指向自身的构造函数，那将会指向父类Animal的构造函数
+  Cat.prototype.constructor = Cat
+
+  let cat = new Cat('ciupt')
+
+ ```
+ - ***构造继承***
+ ```JavaScript
+  /**
+   * 在子类的构造函数中通过call()改变this的指向，调用父类的构造函数
+   * 从而能将父类的实例属性和函数绑定到子类的this上
+   * 
+   * 构造继承的优点
+   *    1.可以解决子类实例共享父类属性的问题
+   *        call()函数实际是改变了父类构造函数中this的指向
+   *        相当于父类的属性和函数绑定到了子类的this中，成了子类实例的属性和函数，不会相互影响
+   *    2.创建子类的实例时，可以向父类传递参数
+   *        在call()中可以对父类传递参数，同时由子类继承下来
+   *    3.可以实现多继承
+   *        在子类构造函数中可以通过多次调用call()函数实现继承多个父对象
+   *        每调用一次call()函数就会将父类的实例属性和函数绑定到子类的this中
+   * 构造继承继承的缺点
+   *    1.实例只是子类的实例，并不是父类的实例
+   *        我们只是通过原型对象将子类和父类进行串联，所以生成的实例与父类没有关系，这就失去了继承的意义
+   *        console.log(cat instanceof Animal)    //false
+   *        console.log(cat instanceof Cat)       //true
+   *    2.只能继承父类实例的属性和函数，并不能继承原型对象上的属性和函数
+   *        子类不能访问原型对象上的属性和函数
+   *    3.无法复用父类的实例对象
+   *        父类的实例函数通过call()函数绑定到子类的this中，因此每个实例都会拥有父类实例的引用
+   *        这会造成不必要的内存消耗，影响性能
+  */
+  //父类
+  function Animal(name){
+    //自身的属性
+    this.type = "animal";
+    this.name = name;
+    this.sleep = function(){
+      console.log(this.name + "正在睡觉");
+    }
+  }
+  //父类原型上增加方法
+  Animal.prototype.eat = ()=>{
+    console.log(this.name + "正在吃饭");
+  }
+  //子类
+  function Cat(name){
+    //继承
+    Animal.call(this);
+    this.name = name;
+  }
+  
+  let c = new Cat('ciupt');
+  c.eat()     //这里会报错，构造继承访问不到原型链上面的方法
+  c.sleep()   //这里可以访问到自身属性上的方法
+ ```
+ - ***复制继承***
+ ```JavaScript
+  /**
+   * 通过for……in遍历父类实例的属性和函数，并将其依次设置为子类的属性和函数或原型对象上的属性和函数
+   * 
+   * 复制继承的优点
+   *    1.支持多继承
+   *        只需要在子类的构造函数中生成多个父类的实例，然后用for……in处理即可
+   *    2.能同时继承实例的属性和函数与原型对象上的属性和函数
+   *    3.可以向父类构造函数中传递值
+   * 复制继承的缺点
+   *    1.父类的所有属性都需要复制，消耗内存
+   *    2.实例只是子类的实例，并不是父类的实例
+   *        console.log(cat instanceof Animal)    //false
+   *        console.log(cat instanceof Cat)       //true
+   * 
+  */
+  //父类
+  function Animal(name){
+    //自身的属性
+    this.type = "animal";
+    this.sleep = function(){
+      console.log(this.name + "正在睡觉");
+    }
+  }
+  //父类原型上增加方法
+  Animal.prototype.eat = ()=>{
+    console.log(this.name + "正在吃饭");
+  }
+  //子类
+  function Cat(name){
+    let animal = new Animal(name);
+    //开始实现复制继承
+    for(key in animal){
+      if(animal.hasOwnProperty(key)){
+        this[key] = animal[key]
+      }else{
+        Cat.prototype[key] = animal[key]
+      }
+    }
+    return this.name
+  }
+  
+  let c = new Cat('ciupt')
+ ```
+ - ***组合继承***
+ ```javascript
+  /**
+   * 组合继承结合了构造继承和原型继承两种
+   * 
+   * 组合继承的优点
+   *    1.既能继承父类实例的属性和函数，又能继承原型对象的属性和函数
+   *    2.即是子类的实例，又是父类的实例
+   *    3.不存在引用属性共享的问题
+   *    4.可以向父类的构造函数中传递参数
+   * 组合继承的缺点
+   *    1.父类的实例属性会绑定两次
+   *        通过call()函数调用了一次父类的构造函数
+   *        改写子类的prototype属性生成实例调用了一次父类的构造函数
+  */
+  //父类
+  function Animal(name){
+    //自身的属性
+    this.type = "animal";
+    this.sleep = function(){
+      console.log(this.name + "正在睡觉");
+    }
+  }
+  //父类原型上增加方法
+  Animal.prototype.eat = ()=>{
+    console.log(this.name + "正在吃饭");
+  }
+  //子类
+  function Cat(name){
+    //构造继承
+    Animal.call(this);
+    this.name = name;
+  }
+  //原型链继承
+  Cat.prototype = new Animal()
+  //绑定到自己身上
+  Cat.prototype.constructor = Cat
+
+  let cat = new Cat('ciupt')
+  cat.sleep()
+  cat.eat()
+ ```
+ - ***寄生组合继承***
+ ```javascript
+  /**
+   * 在组合继承，进行子类的prototype属性的设置时去掉父类实例的属性和函数
+  */
+  //父类
+  function Animal(name){
+    //自身的属性
+    this.type = "animal";
+    this.feature = ['fat','thin','tall'];
+    this.sleep = function(){
+      console.log(this.name + "正在睡觉");
+    }
+  }
+  //父类原型上增加方法
+  Animal.prototype.eat = ()=>{
+    console.log(this.name + "正在吃饭");
+  }
+  //子类
+  function Cat(name){
+    //构造继承
+    Animal.call(this);
+    this.name = name;
+  }
+  //原型的两次绑定加入函数去处理控制
+  //立即执行函数
+  (function(){
+    let Super = function(){};
+    //Super()函数的原型指向父类的原型，去掉父类的实例属性
+    Super.prototype = Animal.prototype
+    Cat.prototype = new Super()
+    Cat.prototype.constructor = Cat
+  })();
+
+  let cat = new Cat('ciupt')
+ ```
+
+### Object类型及其实例和静态函数
+ - 了解 new 运算符
+   - new 操作符在执行过程中会改变this的执行
+   - 视频：p35
