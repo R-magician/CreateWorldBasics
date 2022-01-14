@@ -639,3 +639,170 @@ Array.prototype.min = ()=>{
  - 了解 new 运算符
    - new 操作符在执行过程中会改变this的执行
    - 视频：p35
+
+### 事件流
+  - 捕获
+    - 从最上层到最内层
+  - 冒泡
+    - 从最里层，一步一步向上层冒出
+  - 一个完整的事件流包含了3个阶段：事件捕获阶段 > 事件目标阶段 > 事件冒泡阶段
+  - addEventListener('绑定事件',调用方法,是否支持捕获(true/支持))
+    - 默认是情况下，即第三个参数默认是false时，按照冒泡事件处理
+
+### Event对象(事件)
+ - 事件在浏览器中是以 Event 对象的形式存在的，每触发一个事件就会产生一个Even对象
+ - 该对象包含所有事件相关的信息，包括事件的元素，事件的类型及其他与特定事件相关的信息
+ - Event对象在不同的浏览器中是有差异的
+   - Firefox浏览器只支持event传参的方式
+ - 阻止事件冒泡
+   - event.stopPropagation() 在里层使用这个，就不会触发外层事件
+ ```javascript
+  /**
+   * 获取Event对象的两种方式
+   *    1.通过绑定函数时的参数名event
+   *    2.在处理函数中，通过 window.event 获取对象 
+  */
+  let btn = document.getElementById("button");
+  btn.addEventListener.('click',(event)=>{
+      let winE = window.event;
+      console.log(event == winE) //true
+  })
+ ```
+
+### 阻止默认行为
+ - 通过在触发函数中调用 event.preventDefault() 函数去实现
+
+### 事件委托
+ - 事件委托 就是利用事件冒泡原理，管理某一类型的所有事件
+ - 利用父元素来代表子元素来处理某一类型事件的处理方式
+ - 就是将事件绑定到父元素上，任何来管理触发到子元素上面的事件
+   - 通过event来获取点击的子元素
+
+### 浏览器的重排和重绘
+ - 浏览器渲染页面默认采用的是流布局模型
+ - 页面会重排的操作
+   - 页面首次渲染
+   - 浏览器窗口大小发生改变
+   - 元素尺寸或位置发生改变
+   - 元素内容发送变化
+   - 元素字体发生改变
+   - 添加或者删除Dom元素
+   - 获取特定的属性。offsetTop offsetLeft scrollTop scrollLeft
+ - 浏览器的重绘
+   - 相对于重绘比重排简单多了，只会改变元素在页面中的展示，而不会引起元素在文档流中位置的改变
+   - 例如：字体颜色、背景色、透明度等
+ - 重排会引起重绘的操作，重绘却不会引起重排的操作
+ - 性能优化
+   - 我们应该尽量减少重排重绘的操作，这样也是网站性能优化的一种方式
+   - 将多次改变样式的属性操作合并为一次
+   - 将多次重排元素设置为决定定位
+   - 在内存中多次操作节点，在完成后添加到文档树中
+   - 将复杂处理的元素处理为display:none ,处理完后在进行显示
+   - 将频繁获取会引起重排的属性存到变量中
+   - 尽量减少使用table布局(table中任何一个元素改变，都会引起重排)
+   - 使用事件委托处理程序
+
+### Ajax 的基本执行原理和执行过程
+ - Ajax的基本原理是通过XMLHttpRequset对象向服务器发送异步请求
+ - XMLHttpRequset对象
+   - 从创建到销毁存在一个完整的生命周期，每个周期都会调用特定的函数
+   - abort()      如果请求已发送，则停止请求
+   - getAllResponseHeader()     获取所有HTTP请求的响应头，作为键值对返回，如果每返回则null
+   - getResponseHeader('key')   获取指定key的HTTP响应头，如果不存在返回null
+   - open("method","URL",[asyncFlag],[username],[password])
+     - 建立对服务器的调用
+     - method ：表示请求 GET POST 或者 PUT
+     - URL ： 请求路径
+     - 后面3个是可选参数，分别表示是否异步(默认同步/true)，用户名，密码
+   - send(content)    向服务器发送请求
+   - setRequesHeader('key',value)    
+     - 设置请求头中属性为key的值为value,设置前先调用open(),设置后header将随着send()函数一起发送
+ ```javascript
+  //创建XML
+  function createXMLHttp(){
+    let xmlhttp;
+    //兼容浏览器 IE7及以上 Firefox Chrome Opera Safari
+    if(window.XMLHttpRequest){
+      xmlhttp = new XMLHttpRequest();
+    }
+    //IE6 IE5
+    if(window.ActiveObject){
+      try{
+        xmlhttp = new ActiveObject("Microsoft.XMLHTTP");
+      }catch(e){
+        try{
+          xmlhttp = new ActiveObject("msxm12.XMLHTTP");
+        }catch(ex){
+          console.log(ex)
+        }
+      }
+    }
+    return xmlhttp;
+  }
+
+  //建立连接
+  let xhr = createXMLHttp();
+  xhr.open('post',"/admin/login",true);
+  //设置请求头
+  xhr.setRequesHeader("Content-type","application/json;charset=UTF-8");
+  
+  //发送请求并传输数据
+  let content = {usernam:'aaaa',password:'1111'}
+  xhr.send(content);
+
+  //处理响应
+  xhr.onreadystatechange = ()=>{
+    //当readyState为4，且状态码为200时表示请求成功
+    if(xhr.readyState === 4 && xhr.status === 200){
+      //处理响应值
+      xhr.responseText
+    }
+  }
+ ```
+ - Ajax的优缺点
+   - 优点
+     - 无须刷新更新数据
+     - 异步通信
+     - 前后端分离
+     - 标准化支持
+   - 缺点
+     - 破坏浏览器的正常后退功能(影响不大)
+     - 安全性问题
+     - 对搜索引擎不友好
+     - 违背URL唯一资源定位的初衷
+
+### get方式和post方式的区别
+ - 参数传递
+   - get会将请求参数添加到请求URL的后面,用户可以看到 xhr.send() ,不用发送数据
+   - post请求会将参数放到请求体中，用户无法通过URL直接看到 xhr.send(data) ,要携带参数
+ - 服务端参数获取
+   - 使用Express作为服务器 get 请求可以直接通过 Request.query来获取
+   - post 要加载中间件 通过 Request.body 来获取
+ - 传递的数据量
+   - get可以传输的数据量小 Chrome 限制8K IE限制2K
+   - post传递数据量一般不受限制，单实际上，服务器上会限制
+ - 安全性
+   - get安全较低
+   - post 数据不会出现在URL上,安全性比get高点
+ - 使用get方式需要注意的点
+   - 使用get时，如果url不发生改变，可能存在缓存问题，因此在请求url后一般会拼接上一个时间戳
+   - 使用get方式请求时请求参数在拼接后 可能浏览器编码 服务器编码 数据库编码不一致出现乱码
+     - 因此需要用encodeURIComponent()函数处理
+ - Ajax 进度事件
+   - loadstart：在开始项目时触发
+   - progress：在接收响应期间不断触发，直到请求完成
+   - error：在请求失败时触发
+   - abort：在主动调用abort()函数触发，表示请求终止
+   - load：在数据接收完成触发
+   - loadend：在通信完成或者 error abort load事件后触发
+   - timeout：在请求超时触发
+
+### 跨域的解决方案
+ - CORS 和 JSONP
+ - CORS
+   - 可以在网上加关键字百度，不是很难
+ - JSONP
+   - 是客户端与服务器通信最常用的解决办法，特点简单适用
+   - JSONP 的主要思想可以分两步
+     - 在网页中动态添加一个script标签，通过标签向服务器发送请求，在请求中会携带一个请求callback回调函数
+     - 服务器在接收到请求后，会处理响应获取返回的参数，然后将参数放在callback回调函数中对应的位置返回
