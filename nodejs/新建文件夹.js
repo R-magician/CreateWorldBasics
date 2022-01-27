@@ -13,4 +13,6 @@ function makeDirSync(dirPath){
     }
   }
 }
-makeDirSync("WebRoot\\WEB-INF\\jsp\\crm\\quickOperation");
+makeDirSync("WebRoot\\contentSystem\\customContent");
+makeDirSync("WebRoot\\WEB-INF\\jsp\\contentSystem\\customContent");
+
