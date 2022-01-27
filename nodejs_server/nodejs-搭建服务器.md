@@ -97,6 +97,7 @@ app.get('/',(req,res)=>{
     res.redirect()                //重定向请求
     res.render()                  //发送渲染视图模板
     res.sendFile()                //发送文件字节流
+    res.sendFile('/index.html')   //发送html文件
 
     res.send("Hello World!")      //会结束响应
     res.send('<h1>Hello</h1>')    //发送HTML格式文本
