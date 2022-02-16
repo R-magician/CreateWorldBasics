@@ -1,19 +1,20 @@
-### Vue开始
+### Vue 开始
+
 ```javascript
 vue -v      //查询版本
 cnpm install -g @vue/cli        //安装脚手架
 cnpm i -g @vue/cli //更新脚手架为最新版本
 ```
 
+### cnpm 和 npm 的区别
 
-###  cnpm 和 npm的区别
 ```
 npm下载的服务器在国外，阿里巴巴把国外的插件同步到了中国的服务器。因此使用cnpm就要先安装
 npm install cnpm -g --registry=https://registry.npm.taobao.org
 ```
 
+### vue create 项目名称 //创建项目
 
-### vue create 项目名称     //创建项目
 ```
 第一个是手动安装
 第二个是默认安装Vue2项目
@@ -23,8 +24,8 @@ npm install cnpm -g --registry=https://registry.npm.taobao.org
 选择使用的路由模式（Y：历史/N：哈希（路由有#））
 ```
 
-
 ### 启动项目
+
 ```
 cd 项目名
 npm run serve
@@ -32,20 +33,23 @@ Ctrl + C                停止运行
 ```
 
 ### 项目别人搭建好，我们自己下载下来的
+
 ```
 down下来的项目是没有node_modules文件，存项目中的依赖文件，这个文件不会被提交
 拿到项目以后更新项目的依赖文件（下依赖）
-cnpm install 
+cnpm install
 或者 yarn install
 ```
 
 ### 解决未使用变量而导致的报错
+
 ```
 在package.json里找到eslintConfig->rules添加配置
 "no-unused-vars":"off"
 ```
 
 ### 引入插件
+
 ```
 vue-router: npm instal vue-router --save //路由管理器
 vuex: npm i vuex --save //状态管理器
@@ -59,14 +63,16 @@ Animate: npn install animate.css --save //CSS动画库
 moment.js
 ```
 
-main.js     //引入全局的插件可以放到这里面
+main.js //引入全局的插件可以放到这里面
+
 ```
 render:用来解析js中引入的组件,通过createElement函数去指定具体的内容
 原因是开发的时候引入的是运行版Vue(vue.runtime.xxx.js)里面没有核心功
 能模板解析器,这样可以给项目打包时省点空间
 ```
 
-App.vue文件是所有组件的父组件
+App.vue 文件是所有组件的父组件
+
 ```
 在main.js中引入样式文件用import
 在App.vue中引入样式文件用@import
@@ -75,6 +81,7 @@ App.vue文件是所有组件的父组件
 ```
 
 ### 配置文件
+
 ```
 vue inspect > output.js     //在控制台输入语句可以查看项目配置
 
@@ -84,41 +91,49 @@ vue inspect > output.js     //在控制台输入语句可以查看项目配置
 
 # vue3.0
 
-### 与Vue2相比较
+### 与 Vue2 相比较
+
 1.性能的提升
- - 打包大小减少41%
- - 初次渲染快55%, 更新渲染快133%
- - 内存减少54%
+
+- 打包大小减少 41%
+- 初次渲染快 55%, 更新渲染快 133%
+- 内存减少 54%
 
 2.源码的升级
- - 使用Proxy代替defineProperty实现响应式(对象、数组类型的响应式数据得到了优化)
- - 重写虚拟DOM的实现和Tree-Shaking
 
-3.拥抱TypeScript
- - Vue3可以更好的支持TypeScript
+- 使用 Proxy 代替 defineProperty 实现响应式(对象、数组类型的响应式数据得到了优化)
+- 重写虚拟 DOM 的实现和 Tree-Shaking
+
+3.拥抱 TypeScript
+
+- Vue3 可以更好的支持 TypeScript
 
 4.新的特性
- - Composition API（组合API）
 
-### setup配置
- - ref与reactive(数据声明的类型)
- - watch与watchEffect(里面用到什么变量,当这个变量发生变化的时候,就会调用这个函数)
- - provide与inject(祖孙组件之间的传递数据)
+- Composition API（组合 API）
 
+### setup 配置
+
+- ref 与 reactive(数据声明的类型)
+- watch 与 watchEffect(里面用到什么变量,当这个变量发生变化的时候,就会调用这个函数)
+- provide 与 inject(祖孙组件之间的传递数据)
 
 ### 新的内置组件
 
- - Fragment(虚拟标签vue自动生成--模板中可以的跟标签下可以包含多个标签)
- - Teleport(在页面上指定标签选择器，把组件传送到该选择器下面)
- - Suspense(异步组件--组件数据加载完和加载中是两个样式)
+- Fragment(虚拟标签 vue 自动生成--模板中可以的跟标签下可以包含多个标签)
+- Teleport(在页面上指定标签选择器，把组件传送到该选择器下面)
+- Suspense(异步组件--组件数据加载完和加载中是两个样式)
 
 ### 其他改变
- - 新的生命周期钩子
- - data 选项应始终被声明为一个函数
- - 移除keyCode支持作为 v-on 的修饰符
+
+- 新的生命周期钩子
+- data 选项应始终被声明为一个函数
+- 移除 keyCode 支持作为 v-on 的修饰符
 
 ### 1.使用 vue-cli 创建
+
 官方文档：https://cli.vuejs.org/zh/guide/creating-a-project.html#vue-create
+
 ```
 ## 查看@vue/cli版本，确保@vue/cli版本在4.5.0以上
 vue --version
@@ -130,16 +145,18 @@ vue create vue_test
 cd vue_test
 npm run serve
 ```
+
 ### 2.使用 vite 创建
+
 官方文档：https://v3.cn.vuejs.org/guide/installation.html#vite
 
-vite官网：https://vitejs.cn
+vite 官网：https://vitejs.cn
 
- - 什么是vite？—— 新一代前端构建工具。
- - 优势如下：
-   - 开发环境中，无需打包操作，可快速的冷启动。
-   - 轻量快速的热重载（HMR）。
-   - 真正的按需编译，不再等待整个应用编译完成。
+- 什么是 vite？—— 新一代前端构建工具。
+- 优势如下：
+  - 开发环境中，无需打包操作，可快速的冷启动。
+  - 轻量快速的热重载（HMR）。
+  - 真正的按需编译，不再等待整个应用编译完成。
 
 ```
 ## 创建工程
@@ -155,18 +172,21 @@ $ npm run dev
 ```
 
 ### Vue3--main.js
+
 ```javascript
 //引入的不再是Vue构造函数,引入的是一个名为createApp的工厂函数
-import {createApp} from 'vue'
-import App from './App.vue'
+import { createApp } from "vue";
+import App from "./App.vue";
 
 //创建应用实例对象app(类似于Vue2中的Vm,单app更‘轻’)
 //mount:挂载---unmount:卸载
-createApp(App).mount("#app")
+createApp(App).mount("#app");
 ```
 
-### 常用的Composition API
-setup(props,context)函数--Vue3中新的配置项--值为一个函数
+### 常用的 Composition API
+
+setup(props,context)函数--Vue3 中新的配置项--值为一个函数
+
 ```javascript
 1、setup函数是处于 围绕 beforeCreate 和 created 生命周期钩子运行  也就说在 setup函数中是无法 使用 data 和 methods 中的数据和方法的
 2、setup函数是 Composition API（组合API）的入口
@@ -228,7 +248,7 @@ setup() {//在这里面声明变量和方法在模板中可以调用,在Vue3.0�
             //执行代码
         }
     })
-    
+
 	//监视ref定义的响应式数据，可以写多个watch，只要把监视变量换了就行
 	//如果监视的数据是reactive定义的(非对象)：
 	//			1.此处无法正确的获取oldValue(会和newValue的值一样)
@@ -260,7 +280,7 @@ setup() {//在这里面声明变量和方法在模板中可以调用,在Vue3.0�
       	  //里面用的什么变量，都会执行这个函数
           const x =  ref变量.value;
     }),
-    
+
 	//onBeforeMount--挂载之前执行
     onMounted(()=>{
         console.log('挂载执行')
@@ -275,7 +295,7 @@ setup() {//在这里面声明变量和方法在模板中可以调用,在Vue3.0�
     onUnmounted(()=>{
         console.log('销毁执行')
     })
-    
+
     //若返回一个对象,则对象中的属性、方法在模板中均可以直接使用(常用)
     //若返回一个函数,则可以自定义渲染内容(了解)
     return { //必须返回 模板中才能使用 , 必须使用return
@@ -285,13 +305,14 @@ setup() {//在这里面声明变量和方法在模板中可以调用,在Vue3.0�
 ```
 
 ### ref 和 reactive 的区别
+
 ```
 数据角度
 	ref:基本数据类型
 	reactive:对象、数组类型
 	备注：ref也可以定义 对象或数组 类型,它内部会自动reactive转为代理对象
 原理角度
-	ref:通过Object.defineProperty()的 get 与 set 来实现响应式 (数据劫持) 
+	ref:通过Object.defineProperty()的 get 与 set 来实现响应式 (数据劫持)
 	reactive:通过使用Proxy来实现响应式 (数据劫持) ,并通过Reflect操作源对象内部的数据
 从使用角度
 	ref:操作数据需要 .value ,读取数据时模板中直接读取不需要 .value
@@ -299,6 +320,7 @@ setup() {//在这里面声明变量和方法在模板中可以调用,在Vue3.0�
 ```
 
 ### ref、ref() 和 $refs() 的区别
+
 ```
 ref() 用来声明简单数据类型的，例如,string , number ,boolean（Vue3的setup函数中使用--转为响应式数据）
 
@@ -312,7 +334,8 @@ $refs() 可以用来调用父组件中的方法
 console.log(this.$refs.标记名 ) => 打印结果(<input type='text' ref='input1'>)
 ```
 
-### Vue3中的实现数据响应 ----- reactive实现响应式的原理
+### Vue3 中的实现数据响应 ----- reactive 实现响应式的原理
+
 ```javascript
 window.Proxy---window身上自带的构造函数(代理对象);拦截对象中任意属性的变化--属性的增删改查
 window.Reflect---反射对象;对源对象的属性进行操作
@@ -334,13 +357,14 @@ const p = new Proxy(person,{//实现响应数据的简易雏形
     },
     //删除值调用--要有返回值
     deleteProperty(原数据-person,对象身上的对应属性){
-    	//return delete 原数据-person[对象身上的对应属性]	
+    	//return delete 原数据-person[对象身上的对应属性]
         return Reflect.deleteProperty(原数据-person,对象身上的对应属性)
 	}
 })
 ```
 
-### 自定义hook函数
+### 自定义 hook 函数
+
 ```
 本质是一个函数，把setup函数中使用的Composition API 进行了封装
 类似于Vue2中的mixin
@@ -348,7 +372,8 @@ const p = new Proxy(person,{//实现响应数据的简易雏形
 本质就是把setup中可能要复用的代码复制粘贴到另外一个文件,到时候直接import引入就可以了
 ```
 
-### 不常用的--其他Composition API
+### 不常用的--其他 Composition API
+
 ```javascript
 shallowReactive 与 shallowRef---定义数据(对应 reactive与ref )--使用前要引用
 shallowReactive：只处理对象第一层属性的响应式
@@ -369,7 +394,7 @@ markRaw：标记一个对象，使其永远不会成为响应式对象
 使用场景：
 	1.有些值不应该设置为响应式，例如复杂的第三方库
 	2.渲染不可变数据源的大列表，跳过响应式可以提高性能
-	
+
 customRef
 作用：创建一个自定义的ref,并对其依赖项跟踪和更新触发进行显式控制
 setup(){
@@ -393,6 +418,7 @@ setup(){
 ```
 
 ### 响应式数据判断
+
 ```
 isRef：检查一个值是否为ref对象
 isReactive：检查一个对象是否是由reactive创建的响应式代理
@@ -400,8 +426,8 @@ isReadonly：检查一个对象是否由readonly创建的只读代理
 isProxy：检查一个对象是否由reactive或者readonly方法创建的代理
 ```
 
+### Composition(组合式) API 的优势
 
-### Composition(组合式) API的优势
 ```
 OptionsAPI---Vue2.0
 每当新增或者修改一个需求,就需要分别在data,methods,computed里面修改
@@ -411,6 +437,7 @@ CompositionAPI---Vue3.0
 ```
 
 ### 新的组件
+
 ```javascript
 Fragment-->片段
 在Vue2中组件必须有一个根标签
@@ -447,38 +474,42 @@ async setup(){
     let p = new Promise((resolve,reject)=>{
     	setTimeout(()=>{
             resolve({sum})
-        })    
+        })
     })
     return await p;
 }
 ```
-### Vue3其他的变化
- - 全局API的转移
- - app.config.xxx
- - app.component
- - app.directive
- - app.mixin
- - app.use
- - app.config.globalPropertiess
- - 其他改变
-   - data选项应始终声明为一个函数
-   - 过渡动画类名的更改
-	    .v-enter-from,
-	    .v-leave-to{//来时的样式
-    
-	    }
-	    .v-leave-from,
-	    .v-enter-to{//离开时的样式
-	
-	    }
-   - 移除keyCode作为v-on的修饰符,同时也不再支持config.keyCodes
-   - 移除v-on.native修饰符---通知组件实现原生点击事件的修饰符
-   - 移除过滤器
 
+### Vue3 其他的变化
 
+- 全局 API 的转移
+- app.config.xxx
+- app.component
+- app.directive
+- app.mixin
+- app.use
+- app.config.globalPropertiess
+- 其他改变
+
+  - data 选项应始终声明为一个函数
+  - 过渡动画类名的更改
+    .v-enter-from,
+    .v-leave-to{//来时的样式
+
+    }
+    .v-leave-from,
+    .v-enter-to{//离开时的样式
+
+    }
+
+  - 移除 keyCode 作为 v-on 的修饰符,同时也不再支持 config.keyCodes
+  - 移除 v-on.native 修饰符---通知组件实现原生点击事件的修饰符
+  - 移除过滤器
 
 # vue2.0
-### MVVM模型
+
+### MVVM 模型
+
 ```
 M:模型（Model）:data中的数据
 V:视图（View）：模块代码
@@ -488,7 +519,8 @@ data中所有属性最后都出现在了vm实例上
 vm实例上的所有属性 及 Vue原型上所有属性，在Vue模板中都可以直接使用
 ```
 
-### Vue2数据代理
+### Vue2 数据代理
+
 ```javascript
 数据代理：通过一个对象代理对另一个对象中属性的操作（读/写）
 
@@ -518,14 +550,15 @@ Object.defineProperty(添加属性的对象,添加的属性名,{
 Vue中的数据代理：
     通过vm实例对象来代理data对象中属性的操作（读/写）
 Vue中的数据代理的好处
-    更加方便的操作data中的数据（不代理：{{_data.name}},通过代理：{{name}}）   
+    更加方便的操作data中的数据（不代理：{{_data.name}},通过代理：{{name}}）
 基本原理
     通过Object.defineProperty()把data对象中所有属性添加到vm上。
     为每一个添加到vm上的属性，都指定一个getter/setter。
     在getter/setter内部去操作（读/写）data中对应的属性
 ```
 
-### Vue检测数据改变的原理
+### Vue 检测数据改变的原理
+
 ```
 1.vue会监视data中所有层次的数据。
 
@@ -550,6 +583,7 @@ Vue中的数据代理的好处
 ```
 
 ### 事件处理--修饰符
+
 ```
 @click          //点击事件
 @scroll         //页面滚动条事件
@@ -574,7 +608,7 @@ passive         //事件的默认行为立即执行，无需等待事件回调�
 3.不要把 .passive 和 .prevent 一起使用，因为 .prevent 将会被忽略，同时浏览器可能会向你展示一个警告。请记住，.passive 会告诉浏览器你不想阻止事件的默认行为。
 
 键盘修饰符-->@keydown.enter  / @keydown.65（按键key值,不推荐-->@keydown.a代替）
-enter           //回车键              
+enter           //回车键
 tab             //Tab键-->比较特殊配合keydown使用才会触发
 delete          //删除/退格
 esc             //Esc
@@ -601,6 +635,7 @@ trim：过滤输入字符串首尾的空格
 ```
 
 ### 计算属性
+
 ```javascript
 get有什么作用？当有人读取计算属性时，get就会被调用，且返回值就作为计算属性的值
 get什么时候被调用？1.初次读取fullName时  2.所依赖的数据发生变化时。
@@ -620,13 +655,14 @@ computed:{
             return '';
         }
         set(value){
-           
+
         }
     }
 }
 ```
 
 ### 监视属性
+
 ```javascript
 当监视属性发生变化时，回调函数自动调用
 Vue中的watch默认不检测对象内部指定的改变,配置deep:true可以检测对象内部值的改变
@@ -653,14 +689,16 @@ Vue自身可以检测对象内部值的改变（多层级）
         {
             immediate:true,//初始化的时候就调用
             handler(new,old){
-    
+
             }
         }
     })
 ```
 
-### 过滤器-->filters--( Vue3中被移除 ）
+### 过滤器-->filters--( Vue3 中被移除 ）
+
 对要显示的数据进行特定格式化处理后显示（适用于一些简单逻辑处理）
+
 ```
 //实例中的局部过滤器
 filters:{
@@ -679,6 +717,7 @@ Vue.filter('函数名',function(val){
 ```
 
 ### 内置指令
+
 ```
 v-bind      :单向绑定解析表达式,可以简写为:name='变量'
 v-model     :双向数据绑定
@@ -693,7 +732,8 @@ v-once      :没有值,v-once所在节点初次动态渲染后，就视为静态
 v-pre       :没有值,跳过所在节点的编译过程,变成静态页面,没有使用插值语法/指令语法的节点会加快编译
 ```
 
-### 自定义指令-->directives配置
+### 自定义指令-->directives 配置
+
 ```
 directives:{
     //函数方式创建
@@ -729,7 +769,9 @@ Vue.directive('自定指令名',{
 ```
 
 ### 生命周期
-生命周期中的this指向vm或者组件
+
+生命周期中的 this 指向 vm 或者组件
+
 ```
 beforeCreate(数据监测和数据代理创建之前):无法通过实例访问data中的数据和methods中的方法
 creadted(创建数据监测和数据代理):可以访问data中的数据和methods中的方法
@@ -748,6 +790,7 @@ beforeRouteLeave(to,from,next):通过路由规则--离开该组件时调用--要
 ```
 
 ### template(模板)
+
 ```
 页面上可以不用写Dom结构可以通过实例中给的template来创建Dom元素
 template：{
@@ -756,13 +799,15 @@ template：{
 template里面不能出现多个根节点，不能以<template></template>作为根节点
 ```
 
-### html元素绑定
+### html 元素绑定
+
 ```
 class绑定-->字符串绑定'class名',数组绑定['class名']，对象绑定{class名：false}
 style绑定-->对象绑定{fontSize：'40px'}
 ```
 
 ### 条件渲染(v-show,v-if)
+
 ```
 v-show-->DOM元素还在，用display:none隐藏了元素
 v-if-->DOM元素将去除
@@ -770,6 +815,7 @@ v-if-->DOM元素将去除
 ```
 
 ### 列表渲染(v-for)
+
 ```
 可遍历：数组,对象,字符串,指定次数
 key：如果不写，vue会默认把index做为key值
@@ -797,6 +843,7 @@ key是虚拟DOM对象的标识，当状态中的数据发生变化时，Vue会�
 ```
 
 ### 组件化
+
 ```javascript
 实现应用中局部功能代码和资源的集合
 每次调用Vue.extend,返回的都是一个全新的VueComponent
@@ -849,6 +896,7 @@ Vue.components("组件名1","组件名2"){}
 ```
 
 ### props:让组件接收外部传过来的数据
+
 ```javascript
 props传入组件的值不允许修改,是只读状态
 如果要改props传入组件的值,可以把传入的值与组件data中的变量进行绑定
@@ -868,46 +916,24 @@ props:{//required和default只能选填一个
 ```
 
 ### 子组件给父组件传递数据
+
 ```html
-1.通过父组件给子组件传递函数类型的props实现
-父组件相关代码：
-<自定义组件 :自定义函数名=自定义函数/>
-methods:{
-    自定义函数(可以接收组件内的参数){}
-}
+1.通过父组件给子组件传递函数类型的props实现 父组件相关代码： <自定义组件
+:自定义函数名=自定义函数/> methods:{ 自定义函数(可以接收组件内的参数){} }
 子组件相关代码
-<button @click='触发函数'></button>
-props:["自定义函数"]
-methods:{
-    触发函数(){
-        this.自定义函数(参数)
-    }
-}
-
-2.通过父组件绑定一个自定义事件实现
-父组件相关代码
-方法一：使用@或者v-on
-<自定义组件 @自定义事件名=被调用函数/>
-methods:{
-    被调用函数(参数){}
-}
-方法二：使用ref
-<自定义组件 ref='ref名称'/>
-mounted(){//钩子函数
-    this.$refs.ref名称.$on('atguigu',this.被调用函数)
-}
-
-子组件相关代码
-<button @click='触发函数'></button>
-methods:{
-    触发函数(){
-        this.$emit('自定义事件名',参数)
-        //this.$off('自定义事件名'),解绑
-    }
-}
+<button @click="触发函数"></button>
+props:["自定义函数"] methods:{ 触发函数(){ this.自定义函数(参数) } }
+2.通过父组件绑定一个自定义事件实现 父组件相关代码 方法一：使用@或者v-on
+<自定义组件 @自定义事件名=被调用函数/> methods:{ 被调用函数(参数){} }
+方法二：使用ref <自定义组件 ref='ref名称'/> mounted(){//钩子函数
+this.$refs.ref名称.$on('atguigu',this.被调用函数) } 子组件相关代码
+<button @click="触发函数"></button>
+methods:{ 触发函数(){ this.$emit('自定义事件名',参数)
+//this.$off('自定义事件名'),解绑 } }
 ```
 
 ### 全局事件总线-实现组件中的通信
+
 ```javascript
 在vm中创建一个vc组件实例作为傀儡,用于总线通信
 创建总线
@@ -931,6 +957,7 @@ this.$bus.$emit('自定义事件名',数据)
 ```
 
 ### 消息的订阅与发布-实现组件中的通信
+
 ```javascript
 要使用pubsub-js插件库
 订阅消息：消息名
@@ -958,6 +985,7 @@ methods:{
 ```
 
 ### mixins:可以把多个组件共用的配置提取成一个混入对象
+
 ```
 新建一个js文件定义混入,组件和Vue实例的配置都可以定义
 {
@@ -970,6 +998,7 @@ methods:{
 ```
 
 ### use:引用插件
+
 ```
 包含install方法的一个对象,install的第一个参数是Vue,第二个以后的参数是插件使用者传递的参数
 自Vue定义插件:
@@ -985,11 +1014,13 @@ Vue.use(定义插件名)
 ```
 
 ### scoped:让样式在局部生效,防止样式冲突
+
 ```css
 <style scoped></style>
 ```
 
 ### $nextTick--下一轮执行
+
 ```
 当数据改变后,要基于更新后的新Dom进行某些操作时,要在nextTick所指定的回调函数中执行.
 该方法会在模板编译完成之后才执行
@@ -997,12 +1028,13 @@ this.$nextTick(回调函数)
 ```
 
 ### 过度与动画
+
 ```
 第一种在css中写动画
 html
 <transition name='动画名' appear>     //动画要用这个标签包起来,appear最开始有效
     <span v-show='isShow'></span>
-</transition>       
+</transition>
 CSS
 .动画名-enter-active{}     默认是v-enter-active       //激活时候的动画样式名
 .动画名-leave-active{}     默认是v-leave-active       //取消时候的动画样式名
@@ -1016,6 +1048,7 @@ leave-avtive-class='粘贴离开的动画名';
 ```
 
 ### 网络请求--axios
+
 ```javascript
 解决跨越请求
 1.cors----------需要后端人员配置(这个配置了所有人都能访问
@@ -1048,7 +1081,8 @@ devServer:{
 2.不能配置多个代理,不能灵活的控制请求代理
 ```
 
-### slot插槽-组件中使用====>组件间通信方式
+### slot 插槽-组件中使用====>组件间通信方式
+
 ```
 可用让父组件向子组件指定的位置插入html结构
 定义一个插槽
@@ -1063,6 +1097,7 @@ devServer:{
 ```
 
 ### vuex-状态管理器--(管理公共数据的)
+
 ```javascript
 专门在Vue实现集中式状态(数据)管理的一个Vue插件,对vue应用中多个组件的共享状态进行集中式的管理(读/写),
 也是组件通信的方式,且适用于任意组件间通信。
@@ -1073,12 +1108,12 @@ devServer:{
 
 Vuex工作原理
 Actions:需要通过请求拿参数时要调用,处理业务逻辑  ↓
-Mutatlons:用户可用直接调用,进行数据操作        ↓
-State:管理的数据(状态),管理存储数据     
+Mutations:用户可用直接调用,进行数据操作        ↓
+State:管理的数据(状态),管理存储数据
 
 安装
-npm i vuex   
-import Vuex from 'vuex'   
+npm i vuex
+import Vuex from 'vuex'
 import store from './store/index.js'	//自己创建的
 new Vue({
     el:'#app',
@@ -1142,7 +1177,7 @@ computed:{//借助mapState生成计算属性,从state中读取数据---下面是
     ...mapState({
         别名:state对应数据的变量名,
     }),
-    
+
     //数组里面的字符必须在state里面存在--(数组写法)
     ...mapState(['对应的state变量名']),
 
@@ -1157,12 +1192,12 @@ methods:{
     ...mapMutations({//对应commit
         别名:mutations对应的方法名,
     })
-    
+
     //同上--简写vuex的actions里面的方法
     ...mapActions({//对应dispatch
          别名:actions对应的方法名,
     })
-    
+
     //调用--<div @click = '别名(参数)'></div>
 }
 
@@ -1206,12 +1241,13 @@ methods:{
     ...mapActions('模块别名',['actions方法名'])
     //2.传统方式--读取mutations函数
     函数(){
-        this.$store.commit('模块别名/mutations对应函数名',参数)   
+        this.$store.commit('模块别名/mutations对应函数名',参数)
     }
 }
 ```
 
-### Vue路由
+### Vue 路由
+
 ```javascript
 安装vue-router
 应用Vue.use(VueRouter)
@@ -1309,7 +1345,7 @@ new Vue({
     query:{
         参数1:值1,
         参数2:值2,
-    }   
+    }
 }"></router-link>
 调用：this.$route.query.参数1
 
@@ -1327,7 +1363,7 @@ new Vue({
     params:{
         参数1:值1,
         参数2:值2,
-    }   
+    }
 }"></router-link>
 调用：this.$route.params.参数1
 
@@ -1335,7 +1371,7 @@ new Vue({
 <router-view></router-view>
 //用keep-alive标签包裹的router-view标签，可以让组件切换后不销毁组件(达到缓存效果)
 //include,可以指定不销毁的组件;如果不写，默认不销毁组件
-<keep-alive include='组件名' :include="['组件1','组件2']">
+<keep-alive include='组件名' include="['组件1','组件2']">
     <router-view></router-view>
 </keep-alive>
 

@@ -780,7 +780,7 @@ let cat = new Cat("ciupt");
 - 了解 new 运算符
   - new 操作符在执行过程中会改变 this 的执行
   - 创建一个新对象
-  - 将构造函数的作用域赋值给新对象(改变this指向)
+  - 将构造函数的作用域赋值给新对象(改变 this 指向)
   - 执行构造函数中的代码(给对象添加方法属性)
   - 返回新对象
   - 视频：p35
@@ -984,3 +984,39 @@ xhr.onreadystatechange = () => {
 - Vue
   - 专注于数据层
   - 数据驱动
+
+### Web Socket
+
+```
+1.创建连接
+  URL必须以“ws”字符开头
+  URL必须由4个部分组成
+    通信标记（ws）
+    主机名称（host）
+    端口号（port）
+    及WebSocket Server.
+let host = "ws://echo.websocket.org/";
+let socket=new WebSocket(host);
+
+
+// 打开Socket
+socket.onopen = function(event) {
+
+  // 发送一个初始化消息
+  socket.send('I am the client and I\'m listening!');
+
+  // 监听消息
+  socket.onmessage = function(event) {
+    console.log('Client received a message',event);
+  };
+
+  // 关闭Socket....
+  socket.close()
+}
+
+WebSocket对象的“readyState”属性记录连接过程中的状态值
+0     CONNECTING      连接尚未建立
+1     OPEN            WebSocket的链接已经建立
+2     CLOSING         连接正在关闭
+3     CLOSED          连接已经关闭或不可用
+```
