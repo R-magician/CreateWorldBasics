@@ -1,4 +1,5 @@
 ### 安装运行
+
 ```
 npm i @types/node --save-dev
 npm i ts-node --g
@@ -11,6 +12,7 @@ ts-node 文件名.ts
 ```
 
 ### 基本类型
+
 ```
 基本类型：boolean、number、string
 数组：number[]、Array<元素类型>
@@ -42,6 +44,7 @@ Object：非原始类型
 ```
 
 ### 接口
+
 ```
 定义对象接口
   interface 对象描述{
@@ -82,7 +85,7 @@ let mySquare = 函数(对象);
 
 定义类接口
   interface 类名 {
-    currentTime: Date;    
+    currentTime: Date;
     setTime(d: Date);     //定义的方法
   }
   class 类名 implements 接口类 {
@@ -124,106 +127,113 @@ let mySquare = 函数(对象);
 ```
 
 ### 类
+
 ```typescript
 /**
  * 定义一个类并构造一个实例
  */
 class Greeter {
-    name: string;
-    constructor(name: string) {//构造函数
-        this.name = message;
-    }
-    print() { //用户的定义方法
-        return "Hello, " + this.name;
-    }
+  name: string;
+  constructor(name: string) {
+    //构造函数
+    this.name = message;
+  }
+  print() {
+    //用户的定义方法
+    return "Hello, " + this.name;
+  }
 }
 let greeter = new Greeter("world");
 
 /**
  * 0.构造函数 constructor()
  *   使用 new创建类实例的时候被调用
- *   
+ *
  * 1.使用继承来扩展现有的类
  */
- class Animal { move(cm:number){}}
- class Dog extends Animal {run(s:number){}}
- const dog = new Dog();
- dog.move(10);
- dog.run(2);
+class Animal {
+  move(cm: number) {}
+}
+class Dog extends Animal {
+  run(s: number) {}
+}
+const dog = new Dog();
+dog.move(10);
+dog.run(2);
 
- /**
-  * 2.派生类包含了一个构造函数，它 必须调用 super(),它会执行基类的构造函数
-  *   在构造函数里访问 this的属性之前，我们 一定要调用 super()
-  *
-  * 3.修饰符
-  *   public：公有，可以自由的访问程序里定义的成员
-  *   private：私有，不能在声明它的类的外部访问
-  *   protected：受保护的，与 private修饰符的行为很相似，在派生类中仍然可以访问
-  */
+/**
+ * 2.派生类包含了一个构造函数，它 必须调用 super(),它会执行基类的构造函数
+ *   在构造函数里访问 this的属性之前，我们 一定要调用 super()
+ *
+ * 3.修饰符
+ *   public：公有，可以自由的访问程序里定义的成员
+ *   private：私有，不能在声明它的类的外部访问
+ *   protected：受保护的，与 private修饰符的行为很相似，在派生类中仍然可以访问
+ */
 
-  class Octopus {
-     readonly name: string;
-     readonly numberOfLegs: number = 8;
-     constructor () { //
-         this.name = 'aa';
-     }
-
-      private _fullName: string; //私有变量，通过get set来获取改变值
-      get fullName(): string {
-        return this._fullName;
-      }
-      set fullName(newName: string) {
-        this._fullName = newName;
-      }
-
-      static origin = {x: 0, y: 0}; //静态属性
-
-
+class Octopus {
+  readonly name: string;
+  readonly numberOfLegs: number = 8;
+  constructor() {
+    //
+    this.name = "aa";
   }
-  /**
-   * 4.readonly:将属性设置为只读
-   *    只读属性必须在声明时或构造函数里被初始化,且不能被赋值
-   *
-   * 5.存取器 get和 set
-   *    只带有 get不带有 set的存取器自动被推断为 readonly
-   *    get 获取值，set 设置值
-   *
-   * 6.静态属性
-   *    访问静态属性或方法的时候要在前面加上类名
-   *    例如 Octopus.origin
-   */
 
+  private _fullName: string; //私有变量，通过get set来获取改变值
+  get fullName(): string {
+    return this._fullName;
+  }
+  set fullName(newName: string) {
+    this._fullName = newName;
+  }
 
-   abstract class Animal {
-     abstract makeSound(): void; //定义的抽象方法，必须在派生类中实现
-     move(): void { //平常方法
-         console.log('roaming the earch...');
-     }
-   }
-   /**
-    * 7.抽象类
-    *   - 抽象类做为其它派生类的基类使用，一般不会直接被实例化
-    *   - abstract关键字是用于定义抽象类和在抽象类内部定义抽象方法
-    *   - 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现
-    *   - 抽象方法必须包含 abstract关键字并且可以包含访问修饰符
-    */
+  static origin = { x: 0, y: 0 }; //静态属性
+}
+/**
+ * 4.readonly:将属性设置为只读
+ *    只读属性必须在声明时或构造函数里被初始化,且不能被赋值
+ *
+ * 5.存取器 get和 set
+ *    只带有 get不带有 set的存取器自动被推断为 readonly
+ *    get 获取值，set 设置值
+ *
+ * 6.静态属性
+ *    访问静态属性或方法的时候要在前面加上类名
+ *    例如 Octopus.origin
+ */
 
-    class Point {
-        x: number;
-        y: number;
-    }
-    interface Point3d extends Point {
-        z: number;
-    }
-    let point3d: Point3d = {x: 1, y: 2, z: 3};
-    /**
-     * 8.把类当做接口使用
-     *   - 类定义会创建两个东西：类的实例类型和一个构造函数
-     *   - 能够在允许使用接口的地方使用类
-     */
+abstract class Animal {
+  abstract makeSound(): void; //定义的抽象方法，必须在派生类中实现
+  move(): void {
+    //平常方法
+    console.log("roaming the earch...");
+  }
+}
+/**
+ * 7.抽象类
+ *   - 抽象类做为其它派生类的基类使用，一般不会直接被实例化
+ *   - abstract关键字是用于定义抽象类和在抽象类内部定义抽象方法
+ *   - 抽象类中的抽象方法不包含具体实现并且必须在派生类中实现
+ *   - 抽象方法必须包含 abstract关键字并且可以包含访问修饰符
+ */
+
+class Point {
+  x: number;
+  y: number;
+}
+interface Point3d extends Point {
+  z: number;
+}
+let point3d: Point3d = { x: 1, y: 2, z: 3 };
+/**
+ * 8.把类当做接口使用
+ *   - 类定义会创建两个东西：类的实例类型和一个构造函数
+ *   - 能够在允许使用接口的地方使用类
+ */
 ```
 
 ### 函数
+
 ```
 函数定义，也可以和JavaScript一样
 function 函数名(x: number, y: number): 返回值类型 {
@@ -251,6 +261,7 @@ function 函数名(x: number, y: number): 返回值类型 {
 ```
 
 ### 泛型
+
 ```
 1.传入值可以是任意类型,返回值也可以是任意类型
   function 函数1(arg: any): any {
@@ -307,6 +318,7 @@ function 函数名(x: number, y: number): 返回值类型 {
 ```
 
 ### 枚举
+
 ```
 1.使用枚举我们可以定义一些带名字的常量
 2.每个枚举成员的值都是不同的
@@ -380,6 +392,7 @@ const枚举
 ```
 
 ### 类型推论
+
 ```
 最佳通用类型
   1.TypeScript里，在有些没有明确指出类型的地方，类型推论会帮助提供类型
@@ -393,6 +406,7 @@ const枚举
 ```
 
 ### 类型兼容性
+
 ```
 TypeScript里的类型兼容性是基于结构子类型的, 结构类型是一种只使用其成员来描述类型的方式。它正好与名义（nominal）类型形成对比
 
@@ -423,6 +437,7 @@ TypeScript里的类型兼容性是基于结构子类型的, 结构类型是一�
 ```
 
 ### 高级类型(详细看文档)
+
 ```
 交叉类型
   1.交叉类型是将多个类型合并为一个类型
@@ -505,6 +520,7 @@ TypeScript里的类型兼容性是基于结构子类型的, 结构类型是一�
 ```
 
 ### Symbols
+
 ```
 1.symbol成为了一种新的原生类型，就像number和string一样
 2.symbol类型的值是通过Symbol构造函数创建的
@@ -562,6 +578,7 @@ TypeScript里的类型兼容性是基于结构子类型的, 结构类型是一�
 ```
 
 ### 迭代器和生成器
+
 ```
 for..of 语句
   for..of会遍历可迭代的对象，调用对象上的Symbol.iterator方法。
@@ -573,6 +590,7 @@ for..of vs. for..in 语句
 ```
 
 ### 模块
+
 ```
 1.“内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”
 2.模块有自己的作用域，外部是不可见的，可以用export导出，让外部文件import导入使用
@@ -605,6 +623,7 @@ export = 和 import = require()
 ```
 
 ### 命名空间
+
 ```
  1.“内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”
  2.只要命名空间的名字相同在多个文件中，他们还是属于同一个命名空间
@@ -630,6 +649,7 @@ let sq = new polygons.Square();
 ```
 
 ### 命名空间和模块
+
 ```
 内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”
 不应该对模块使用命名空间，使用命名空间是为了提供逻辑分组和避免命名冲突
@@ -647,6 +667,7 @@ let sq = new polygons.Square();
 ```
 
 ### 模块解析
+
 ```
 1.模块解析是指编译器在查找导入模块内容时所遵循的流程
 2.你应该为你自己写的模块使用相对导入，这样能确保它们在运行时的相对位置
@@ -657,12 +678,12 @@ let sq = new polygons.Square();
             import { DefaultHeaders } from "../constants/http";
             import "/mod";
     2.所有其它形式的导入被当作非相对的
-        如: import Entry from "./components/Entry";
-            import { DefaultHeaders } from "../constants/http";
-            import "/mod";
+        如: import * as $ from "jQuery";
+            import { Component } from "@angular/core";
 ```
 
 ### 声明合并 (详情见文档)
+
 ```
 “声明合并”是指编译器将针对同一个名字的两个独立声明合并为单一声明。 合并后的声明同时拥有原先两个声明的特性。 任何数量的声明都可被合并；不局限于两个声明。
 
@@ -670,27 +691,21 @@ TypeScript中的声明会创建以下三种实体之一：命名空间，类型�
 创建命名空间的声明会新建一个命名空间，它包含了用（.）符号来访问时使用的名字
 
 
-声明类型	命名空间类型	值
-Namespace	X		X
-Class		X	X
-Enum		X	X
-Interface		X
-Type Alias		X
-Function			X
-Variable			X
 
 ```
-| 声明类型     | 命名空间 | 类型 | 值 |
-| :--- | :--- | :--- | :--- |
-| Namespace	 | X |   | X |
-| Class		   |   | X | X |
-| Enum		   |   | X | X |
-| Interface  |   | X | X |
-| Type Alias |   | X |   |
-| Function   |   |   | X |
-| Variable   |   |   | X |
+
+| 声明类型   | 命名空间 | 类型 | 值  |
+| :--------- | :------- | :--- | :-- |
+| Namespace  | X        |      | X   |
+| Class      |          | X    | X   |
+| Enum       |          | X    | X   |
+| Interface  |          | X    | X   |
+| Type Alias |          | X    |     |
+| Function   |          |      | X   |
+| Variable   |          |      | X   |
 
 ### 装饰器
+
 ```
 1.装饰器是一种特殊类型的声明，它能够被附加到类声明，方法， 访问符，属性或参数上
 2.装饰器是特殊的闭包，其参数是一个函数，形成一个闭包就是装饰器了。装饰器的返回值也是一个函数对象
@@ -727,7 +742,7 @@ Variable			X
   2.类装饰器应用于类构造函数，可以用来监视，修改或替换类定义
   3.类装饰器不能用在声明文件中( .d.ts)，也不能用在任何外部上下文中
     //使用装饰器
-    @sealed                       
+    @sealed
     class Greeter {
       constructor(message: string) {}
     }
@@ -799,8 +814,157 @@ Variable			X
 ```
 
 ### 三斜线指令（详情见文档）
+ + 三斜线指令仅可放在包含它的文件的最顶端
+ + 一个三斜线指令的前面只能出现单行或多行注释，这包括其它的三斜线指令
+ + 引用不存在的文件会报错。 一个文件用三斜线指令引用自己会报错。
+ + 指定了--noResolve编译选项，三斜线引用会被忽略
+```
+/// <reference path="..." />
+这个指令是用来声明 依赖的； 
 
-### tsconfig.json
+/// <reference types="..." />
+这个指令则声明了对某个包的依赖。
+/// <reference types="node" /> 引入到声明文件，
+表明这个文件使用了 @types/node/index.d.ts里面声明的名字； 
+并且，这个包需要在编译阶段与声明文件一起被包含进来。
+
+/// <reference no-default-lib="true"/>
+这个指令把一个文件标记成默认库。 
+你会在 lib.d.ts文件和它不同的变体的顶端看到这个注释。
+
+/// <amd-module />
+默认情况下生成的AMD模块都是匿名的。
+但是，当一些工具需要处理生成的模块时会产生问题，比如 r.js。
+amd-module指令允许给编译器传入一个可选的模块名
+
+/// <amd-dependency />
+这个指令被废弃了。使用import "moduleName";语句代替
+```
+### 声明文件
+ + 结构
+   + 全局库：全局库是指能在全局命名空间下访问的
+     + 会看到
+       + 顶级的var语句或function声明
+       + 一个或多个赋值语句到window.someName
+       + 假设DOM原始值像document或window是存在的
+     + 不会看到
+       + 检查是否使用或如何使用模块加载器，比如require或define
+       + CommonJS/Node.js风格的导入如var fs = require("fs");
+       + define(...)调用
+       + 文档里说明了如何去require或导入这个库
+   + 模块化库
+     + 无条件的调用require或define
+     + 像import * as a from 'b'; or export c;这样的声明
+     + 赋值给exports或module.exports
+     + 它们极少包含 对window或global的赋值
+   + UMD模块
+     + 既可以作为模块使用（通过导入）又可以作为全局（在没有模块加载器的环境里）使用的模块
+     + 比如：Moment.js
+       + import moment = require("moment");//引入使用
+       + console.log(moment.format());//浏览器中使用
+     + 判断UMD库
+       + 如果你在库的源码里看到了typeof define，typeof window，
+       + 或typeof module这样的测试，尤其是在文件的顶端，那么它几乎就是一个UMD库。
+     + 大多数流行的库现在都能够被当成UMD包。 比如 jQuery,Moment.js,lodash和许多其它的。
+   + 模版
+     + module-function.d.ts
+       + 如果模块能够作为函数调用
+       + var x = require("foo");
+       + var y = x(42);
+     + module-class.d.ts
+       + 如果模块能够使用new来构造
+       + var x = require("bar");
+       + var y = new x("hello");
+     + module.d.ts
+       + 如果模块不能被调用或构造
+   + 模块插件
+     + 一个模块插件可以改变一个模块的结构（UMD或模块）
+     + 对于声明文件的目标，我们会写相同的代码不论被改变的模块是一个纯粹的模块还是UMD模块
+     + 使用module-plugin.d.ts模版
+   + 全局插件
+     + 一个全局插件是全局代码，它们会改变全局对象的结构
+     + 全局修改的模块，在运行时存在冲突的可能
+     + 一些库往Array.prototype或String.prototype里添加新的方法
+     + 使用global-plugin.d.ts模版。
+   + 全局修改的模块
+     + 当一个全局修改的模块被导入的时候，它们会改变全局作用域里的值
+     + 全局修改的模块通常可以很容易地从它们的文档识别出来。 
+     + 通常来讲，它们与全局插件相似，但是需要 require调用来激活它们的效果。
+     + 使用global-modifying-module.d.ts模版。
+   + 使用依赖
+     + 依赖全局库
+       + 如果你的库依赖于某个全局库，使用 /// < reference types="..." />指令
+       + /// < reference types="someLib" />
+     + 依赖模块
+       + 如果你的库依赖于模块，使用import语句：
+       + import * as moment from "moment";
+     + 依赖UMD库
+       + 从全局库
+         + 如果你的全局库依赖于某个UMD模块，使用/// < reference types />指令
+         + /// < reference types="moment" />
+       + 从一个模块或UMD库
+         + 如果你的模块或UMD库依赖于一个UMD库，使用import语句
+         + import * as someLib from 'someLib';
+         + 不要使用/// < reference指令去声明UMD库的依赖！
+   + 防止命名冲突
+     + 在书写全局声明文件时，允许在全局作用域里定义很多类型
+     + 十分不建义这样做，当一个工程里有许多声明文件时，它会导致无法处理的命名冲突
+     + 使用库定义的全局变量名来声明命名空间类型
+   + ES6模块插件的影响
+     + 一些插件添加或修改已存在的顶层模块的导出部分
+     + 当然这在CommonJS和其它加载器里是允许的，ES模块被当作是不可改变的因此这种模式就不可行了
+     + 因为TypeScript是能不预知加载器类型的，所以没在编译时保证，但是开发者如果要转到ES6模块加载器上应该注意这一点。
+   + ES6模块调用签名的影响
+     + 很多流行库，比如Express，暴露出自己作为可以调用的函数,如下：
+       + import exp = require("express");
+       + var app = exp();
+     + 在ES6模块加载器里，顶层的对象（这里以exp导入）只能具有属性；
+     + 顶层的模块对象 永远不能被调用
+     + 十分常见的解决方法是定义一个 default导出到一个可调用的/可构造的对象
+     + 一会模块加载器助手工具能够自己探测到这种情况并且使用 default导出来替换顶层对象。
+ + 举例
+   + declare (正式声明宣告)
+     + 在声明的变量 函数 类 前添加declare,可以在引用后有全局提示
+ + 规范
+   + 普通类型
+     + 不要使用如下类型Number，String，Boolean或Object
+     + 这些类型指的是非原始的装盒对象，它们几乎没在JavaScript代码里正确地使用过
+     + 应该使用类型number，string，Object，boolean
+   + 泛型
+     + 不要定义一个从来没使用过其类型参数的泛型类型
+   + 回调函数返回值类型
+     + 不要为返回值被忽略的回调函数设置一个any类型的返回值类型(应为：void)
+   + 回调函数里的可选参数
+     + 不要在回调函数里使用可选参数除非你真的要这么做
+   + 重载与回调函数
+     + 不要因为回调函数参数个数不同而写不同的重载，应该只使用最大参数个数写一个重载
+   + 函数重载
+     + 不要把一般的重载放在精确的重载前面，应该排序重载令精确的排在一般的之前
+   + 使用可选参数
+     + 不要为仅在末尾参数不同时写不同的重载，应该尽可能使用可选参数
+   + 使用联合类型
+     + 不要为仅在某个位置上的参数类型不同的情况下定义重载
+     + 应该尽可能地使用联合类型
+ + 深入(详情见文档)
+   + 类型：类型通过以下方式引入
+     + 类型别名声明（type sn = number | string;）
+     + 接口声明（interface I { x: number[]; }）
+     + 类声明（class C { }）
+     + 枚举声明（enum E { A, B, C }）
+     + 指向某个类型的import声明
+   + 值：创建值
+     + let，const，和var声明
+     + 包含值的namespace或module声明
+     + enum声明
+     + class声明
+     + 指向值的import声明
+     + function声明
+ + 模板(详情见文档)
+ + 发布(详情见文档)
+ + 使用(详情见文档)
+
+### tsconfig.json(详情见文档)
+
 ```
 如果一个目录下存在一个tsconfig.json文件
 ```
