@@ -1,21 +1,22 @@
-## CSS3有哪些新特性
- - RGBA和透明度
- - 背景
-   - background-image----- 设置背景图片 
-     - background-image: linear-gradient(#e66465, #9198e5); //设置渐变
-   - background-size-------- 设置背景图像的大小
-   - background-origin----- 背景图像的位置区域
-   - background-clip-------- 背景剪裁属性是从指定位置开始绘制
- - word-wrap（对长的不可分割单词换行）word-wrap：break-word
- - 文字阴影：text-shadow：5px 5px 5px #FF0000;（水平阴影，垂直阴影，模糊距离，阴影颜色）
- - font-face属性：定义自己的字体
- - 圆角（边框半径）：border-radius 属性用于创建圆角
- - 边框图片：border-image: url(border.png) 30 30 round
- - 盒阴影：box-shadow: 10px 10px 5px #888888
- - 媒体查询：定义两套css，当浏览器的尺寸变化时会采用不同的属性
- - CSS3过渡
- - CSS3变换
- - CSS3动画
+## CSS3 有哪些新特性
+
+- RGBA 和透明度
+- 背景
+  - background-image----- 设置背景图片
+    - background-image: linear-gradient(#e66465, #9198e5); //设置渐变
+  - background-size-------- 设置背景图像的大小
+  - background-origin----- 背景图像的位置区域
+  - background-clip-------- 背景剪裁属性是从指定位置开始绘制
+- word-wrap（对长的不可分割单词换行）word-wrap：break-word
+- 文字阴影：text-shadow：5px 5px 5px #FF0000;（水平阴影，垂直阴影，模糊距离，阴影颜色）
+- font-face 属性：定义自己的字体
+- 圆角（边框半径）：border-radius 属性用于创建圆角
+- 边框图片：border-image: url(border.png) 30 30 round
+- 盒阴影：box-shadow: 10px 10px 5px #888888
+- 媒体查询：定义两套 css，当浏览器的尺寸变化时会采用不同的属性
+- CSS3 过渡
+- CSS3 变换
+- CSS3 动画
 
 ## CSS 选择器
 
