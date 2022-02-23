@@ -1,3 +1,11 @@
+<a href="https://www.runoob.com/jsref/jsref-tutorial.html" target="_blank">JS 对象,Browser 对象,DOM 对象参考手册</a>
+
+### HTML5 声明
+
+<!DOCTYPE> 声明必须是 HTML 文档的第一行
+
+指示 web 浏览器关于页面使用哪个 HTML 版本进行编写的指令
+
 ### HTML5 新元素
 
 - < canvas>
@@ -57,6 +65,7 @@ ctx.stroke();
 - SVG 使用 XML 格式定义图形
 - SVG 图像在放大或改变尺寸的情况下其图形质量不会有损失
 - SVG 是万维网联盟的标准
+- 三种图像对象存在，分别是矢量图像、点阵图像和文本
 - 优势
   - SVG 图像可通过文本编辑器来创建和修改
   - SVG 图像可被搜索、索引、脚本化或压缩
@@ -170,15 +179,15 @@ FALLBACK:            //在标题下列出的文件规定当页面无法访问时
   - Worker 线程不能执行 alert()方法和 confirm()方法，但可以使用 XMLHttpRequest 对象发出 AJAX 请求
 - 文件限制
   - Worker 线程无法读取本地文件，即不能打开本机的文件系统（file://），它所加载的脚本，必须来自网络。
-- 主线程API
+- 主线程 API
   - Worker.onerror：指定 error 事件的监听函数。
-  - Worker.onmessage：指定 message 事件的监听函数，发送过来的数据在Event.data属性中。
+  - Worker.onmessage：指定 message 事件的监听函数，发送过来的数据在 Event.data 属性中。
   - Worker.onmessageerror：指定 messageerror 事件的监听函数。发送的数据无法序列化成字符串时，会触发这个事件。
   - Worker.postMessage()：向 Worker 线程发送消息。
   - Worker.terminate()：立即终止 Worker 线程。
-- Worker线程(开启的线程)
+- Worker 线程(开启的线程)
   - self.name： Worker 的名字。该属性只读，由构造函数指定。
-  - self.onmessage：指定message事件的监听函数。
+  - self.onmessage：指定 message 事件的监听函数。
   - self.onmessageerror：指定 messageerror 事件的监听函数。发送的数据无法序列化成字符串时，会触发这个事件。
   - self.close()：关闭 Worker 线程。
   - self.postMessage()：向产生这个 Worker 线程发送消息。
@@ -187,7 +196,7 @@ FALLBACK:            //在标题下列出的文件规定当页面无法访问时
 ```javascript
 //主线程采用new命令，调用Worker()构造函数，新建一个 Worker 线程
 //Worker()构造函数的参数是一个脚本文件，该文件就是 Worker 线程所要执行的任务
-let worker = new Worker("work.js", { name : 'Worker 的名称' });
+let worker = new Worker("work.js", { name: "Worker 的名称" });
 
 //主线程调用worker.postMessage()方法，向 Worker 发消息
 worker.postMessage("Hello World");
@@ -202,17 +211,16 @@ worker.onmessage = function (event) {
 //完成任务以后，主线程就可以把它关掉。
 worker.terminate();
 
-
 //监听主线程的error事件
 //方法一
 worker.onerror(function (event) {
-  console.log([
-    'ERROR: Line ', e.lineno, ' in ', e.filename, ': ', e.message
-  ].join(''));
+  console.log(
+    ["ERROR: Line ", e.lineno, " in ", e.filename, ": ", e.message].join("")
+  );
 });
 
 //方法二
-worker.addEventListener('error', function (event) {
+worker.addEventListener("error", function (event) {
   // ...
 });
 ```
@@ -247,17 +255,20 @@ this.close();
 //加载其他脚本,该方法可以同时加载多个脚本。
 importScripts("script1.js", "script2.js");
 ```
+
 ## SSE(Server-Sent Events 单向消息传递)
- - 服务器发送事件（server-sent event）允许网页获得来自服务器的更新。
- - Server-Sent 事件指的是网页自动获取来自服务器的更新。
- - 只能服务器向浏览器发送，因为流信息本质上就是下载
- - 如果浏览器向服务器发送信息，就变成了另一次 HTTP 请求
- - 优点
-   - SSE 使用 HTTP 协议，现有的服务器软件都支持。WebSocket 是一个独立协议。
-   - SSE 属于轻量级，使用简单；WebSocket 协议相对复杂。
-   - SSE 默认支持断线重连，WebSocket 需要自己实现。
-   - SSE 一般只用来传送文本，二进制数据需要编码后传送，WebSocket 默认支持传送二进制数据。
-   - SSE 支持自定义发送的消息类型。
+
+- 服务器发送事件（server-sent event）允许网页获得来自服务器的更新。
+- Server-Sent 事件指的是网页自动获取来自服务器的更新。
+- 只能服务器向浏览器发送，因为流信息本质上就是下载
+- 如果浏览器向服务器发送信息，就变成了另一次 HTTP 请求
+- 优点
+  - SSE 使用 HTTP 协议，现有的服务器软件都支持。WebSocket 是一个独立协议。
+  - SSE 属于轻量级，使用简单；WebSocket 协议相对复杂。
+  - SSE 默认支持断线重连，WebSocket 需要自己实现。
+  - SSE 一般只用来传送文本，二进制数据需要编码后传送，WebSocket 默认支持传送二进制数据。
+  - SSE 支持自定义发送的消息类型。
+
 ```javascript
 // SSE 的客户端 API 部署在EventSource对象上
 // 生成一个EventSource实例，向服务器发起连接。
@@ -291,4 +302,78 @@ source.addEventListener('message', function (event) {
 //关闭SSE连接
 source.close();
 ```
-<a href="https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html">查看服务器实现</a>
+
+<a target="_blank" href="https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html">查看服务器实现</a>
+
+## WebSocket
+
+- WebSocket 是 HTML5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。
+- WebSocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推送数据。
+- 在 WebSocket API 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。
+- HTML5 定义的 WebSocket 协议，能更好的节省服务器资源和带宽，并且能够更实时地进行通讯。
+- WebSocket 的特点
+  - （1）建立在 TCP 协议之上，服务器端的实现比较容易。
+  - （2）与 HTTP 协议有着良好的兼容性。默认端口也是 80 和 443，并且握手阶段采用 HTTP 协议，因此握手时不容易屏蔽，能通过各种 HTTP 代理服务器。
+  - （3）数据格式比较轻量，性能开销小，通信高效。
+  - （4）可以发送文本，也可以发送二进制数据。
+  - （5）没有同源限制，客户端可以与任意服务器通信。
+  - （6）协议标识符是 ws（如果加密，则为 wss），服务器网址就是 URL。
+  - ` ws://example.com:80/some/path`
+- readyState 属性返回实例对象的当前状态，共有四种。
+  - CONNECTING：值为 0，表示正在连接。
+  - OPEN：值为 1，表示连接成功，可以通信了。
+  - CLOSING：值为 2，表示连接正在关闭。
+  - CLOSED：值为 3，表示连接已经关闭，或者打开连接失败。
+
+```javascript
+//WebSocket 对象作为一个构造函数，用于新建 WebSocket 实例
+let ws = new WebSocket("ws://localhost:8080");
+
+//指定连接成功后的回调函数
+ws.onopen = function () {
+  ws.send("Hello Server!");
+};
+
+//可以用addEventListener添加绑定方法
+ws.addEventListener("open", function (event) {
+  ws.send("Hello Server!");
+});
+
+//指定连接关闭后的回调函数
+//第一种
+ws.onclose = function (event) {
+  var code = event.code;
+  var reason = event.reason;
+  var wasClean = event.wasClean;
+  // handle close event
+};
+
+//第二种
+ws.addEventListener("close", function (event) {
+  var code = event.code;
+  var reason = event.reason;
+  var wasClean = event.wasClean;
+  // handle close event
+});
+
+//指定收到服务器数据后的回调函数
+//第一种
+ws.onmessage = function (event) {
+  var data = event.data;
+  // 处理数据
+};
+
+//第二种
+ws.addEventListener("message", function (event) {
+  var data = event.data;
+  // 处理数据
+});
+
+//向服务器发送数据
+ws.send("your message");
+
+//指定报错时的回调函数
+ws.onerror = function (event) {
+  // handle error event
+};
+```
