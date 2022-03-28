@@ -17,6 +17,41 @@ UP主出的机器学习与深度学习开源教程：https://github.com/Jack-Che
 ### 安装环境
 ```
 anaconda (自带Python)
+//下载慢：在官网找到下载地址用迅雷下载贼快
 cuda (只能运行在英伟达显卡上，GUP加速)
+
+//安装pytorch
+//添加清华镜像源
+conda install pytorch torchvision cudatoolkit=10.2
+ 
+//管理员添加以下命令
+conda install pytorch torchvision cuda100
+
+https://pytorch.org/
+安装PyCharm用于编辑python
+
+使用pip安装PyTorch
+pip install torchvision 
+```
+
+### 创建一个矩阵
+```
+torch.empty(5,3)                            //生成一个5行3列的矩阵
+torch.rand(5,3)                             //随机生成一个5行3列的矩阵
+torch.zeros(5,3,dtype=torch.long)           //初始化一个5行3列的全零的矩阵
+
+x.size()                                    //展示矩阵维度几行几列[5,3]
+
+x + y   或者torch.add(x,y)                  //两个矩阵相加
+x[:,1]                                      //索引，冒号表示取所有,输出是所有第2列的数据
+
+//改变矩阵维度
+x = torch.randn(4,4)
+x.view(16)                                  //把4*4的矩阵扁平化为一维
+x.view(-1,8)                                //-1为自动化,自动化为8列的矩阵，行数自己完成
+```
+
+### 自动求导机制
+```
 
 ```
