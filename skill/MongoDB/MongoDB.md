@@ -18,7 +18,7 @@ npm install mongoose --save
 ```
 
 术语概率
-![img.png](img.png)
+![img.png](../nodejs/img.png)
 
 ## 数据库相关命令
 
