@@ -24,7 +24,7 @@ const UserSchema = mongoose.Schema({
 最好首字母大写，和数据库表（集合名称对应）
 model是由schema生成的模型，可以对数据库操作
 mongoose.model 里面可以传入两个参数也可以传入三个参数
-mongoose.model(参数1:模型名称(首字母大写),参数2:Schema,参数3:数据库集合名称(可选参数))
+mongoose.model(参数1:模型名称(首字母大写),参数2:Schema,参数3:数据库操作的集合名称(可选参数))
 两个参数：模型会操作数据库中相同名称(名称+s)的集合(比如:模型名:User对应集合表:Users)
 三个参数：模型会默认操作第三个参数定义的集合名称(我建议最好这样整-上面一个感觉不灵活)
 mongoose.model('User',UserSchema)
