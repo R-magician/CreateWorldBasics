@@ -60,6 +60,9 @@ Model.deleteOne({条件},(err,doc)=>{
 Model.find({条件},(err,doc)=>{
     console.log(err,doc)
 })
+
+//查询语句具体执行的时间
+Model.find().explain("executionStats")
 ```
 
 ## mongoose 默认值、模块化
@@ -114,14 +117,14 @@ let User = mongoose.Schema({
 ## mongoose 索引，内置的增删改查方法、扩展MongooseModel的静态方法和实例方法
 ```
 //设置索引是为了优化查询速度
-1.unique：唯一索引，index:普通索引;二选一
+1.unique：唯一索引(字段值不能重复)，index:普通索引;二选一
 let User = mongoose.Schema({
     age:Number,
     name:{
         type:String,//指定类型
         //普通索引
         index:true,
-        //唯一索引
+        //唯一索引(字段值不能重复)
         unique:true,
     }
 })
@@ -177,7 +180,43 @@ let u = User({age:18})
 
 ## Mongooes聚合管道
 ```
+//关联查询---两张表
+//有订单表和商品表,查询没个订单下的具体商品有哪些
+let order = mongoose.Schema({})
+order.aggregate([
+   {
+      $lookup:{//关联表
+        from:"goods",//关联的表名
+        localField:"goods_id",//order表中对应的商品id-----order.goods_id=goods.id
+        foreignField:"id",//商品标表中的id-----order.goods_id=goods.id
+        as:”items”,//返回时用于接收的字段
+      },
+      $match:{//查询条件
+        "price":{$gte:90}//价格大于90的记录
+      }
+   }
+],function(err,docs){
+   console.log(docs)
+})
 
+//查找对应商品的多个订单（比如:有牛奶的所有订单）
+let goods = mongoose.Schema({})
+goods.aggregate([
+   {
+      $lookup:{//关联表
+        from:"order",//关联的表名
+        localField:"id",//商品表中商品id-----goods.id=order.goods_id
+        foreignField:"goods_id",//订单表中对应的商品id-----goods.id=order.goods_id
+        as:”order_info”,//返回时用于接收的字段
+      },
+      $match:{//查询条件
+        "name":'牛奶',//名称是牛奶
+        _id:mongoose.Types.ObjectId(''),//用这种方式匹配MongoDB中的id字段
+      }
+   }
+],function(err,docs){
+   console.log(docs)
+})
 ```
 
 
