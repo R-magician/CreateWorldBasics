@@ -18,6 +18,7 @@ mongoose.connect('mongodb://账号:密码@localhost:端口号/数据库?authSour
 数据库中的Schema，为数据库对象的集合。schema是mongoose里会用到的一种数据模式
 每个schema会隐射到mongodb中的一个collection（集合），不具备操作数据库的能力
 const UserSchema = mongoose.Schema({
+    id:mongoose.Schema.Types.ObjectId,//id字段类型
     name:String,
     age:Number,
 })
@@ -69,6 +70,7 @@ Model.find().explain("executionStats")
 ```
 //Modal实现默认值
 let User = mongoose.Schema({
+    id:mongoose.Schema.Types.ObjectId,//id字段类型
     name:String,
     age:{
         type:Number,//指定类型
@@ -208,14 +210,43 @@ goods.aggregate([
         localField:"id",//商品表中商品id-----goods.id=order.goods_id
         foreignField:"goods_id",//订单表中对应的商品id-----goods.id=order.goods_id
         as:”order_info”,//返回时用于接收的字段
-      },
+      }
+   },{
       $match:{//查询条件
         "name":'牛奶',//名称是牛奶
-        _id:mongoose.Types.ObjectId(''),//用这种方式匹配MongoDB中的id字段
+        _id:mongoose.Types.ObjectId('匹配的ID值'),//用这种方式匹配MongoDB中的id字段
       }
    }
 ],function(err,docs){
    console.log(docs)
+})
+
+
+
+//多表关联查询--aggregate
+let art = mongoose.Schema({})    //文章表
+let artCat = mongoose.Schema({}) //文章分类表
+let user = mongoose.Schema({})  //用户表
+查询文章信息并且显示文章分类和作者信息
+art.aggregate([
+   {
+      $lookup:{//关联表
+         from:"artCat",//关联的表名
+         localField:"art_cat_id",//当前表id
+         foreignField:"id",//对应表对应id
+         as:”cate”,//返回时用于接收的字段
+      },
+   },
+   {
+      $lookup:{//关联表
+         from:"user",//关联的表名
+         localField:"user_id",//当前表id
+         foreignField:"id",//对应表对应id
+         as:”userList”,//返回时用于接收的字段
+      },
+   }
+],function(err,docs){
+    console.log(docs)
 })
 ```
 

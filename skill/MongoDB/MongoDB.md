@@ -228,39 +228,48 @@ db.user.find().sort({排序字段:排序状态})
 aggregate() 
 https://www.mongodb.com/docs/manual/reference/sql-aggregation-comparison/
 
-查询所有数据总数
+聚合查询相关配置
 db.user.aggregate([
-{
-    $lookup:{//关联表
-        from:"order",//关联的表名
-        localField:"id",//商品表中商品id-----goods.id=order.goods_id
-        foreignField:"goods_id",//订单表中对应的商品id-----goods.id=order.goods_id
-        as:”order_info”,//返回时用于接收的字段
-    },
-    $project:{//查询后显示的字段--(1:显示,2:不显示)
-        显示的字段1:1,
-        显示的字段2:,
-    },
-    $match:{//查询条件
-        gender:"男",
-    },
-    $group:{
-        _id:null,//不进行分组
-        _id:"$sex",//性别年龄分组
-        total:{$sun:1},//1:取总数,$字段名:求和
-        maxAge:{$max:"$age"},//分组的最大年龄
-        minAge:{$min:"$age"},//分组的最小年龄
-        avgAge:{$avg:"$age"},//求分组的平均年龄
-        sumAge:{$sun:"$age"},//求分组的总的年龄和
-        names:{$push:"$name"},//将姓名添加到数组中(姓名是分组的里面的)
-        dataStr:{$dateToString:{format:"%Y-%m-%d",date:"$birthday"}},//格式化日期
-    },
-    $sort:{
-        avgAge:1//按平均年龄排序 
-    },
-    $unwind:"$hobby",//将hobby数组字段的每一项都当做一条数据输出
-    $limit:每一页数据条数
-    $skip:起始索引 
-    $sample:3,//随机返回3条数据
+    {
+        $lookup:{//关联表
+            from:"order",//关联的表名
+            localField:"id",//商品表中商品id-----goods.id=order.goods_id
+            foreignField:"goods_id",//订单表中对应的商品id-----goods.id=order.goods_id
+            as:”order_info”,//返回时用于接收的字段
+        }
+    },{
+        $project:{//查询后显示的字段--(1:显示,2:不显示)
+            显示的字段1:1,
+            显示的字段2:,
+        },
+    },{
+        $match:{//查询条件
+            gender:"男",
+        },
+    },{
+        $group:{
+            _id:null,//不进行分组
+            _id:"$sex",//性别年龄分组
+            total:{$sun:1},//1:取总数,$字段名:求和
+            maxAge:{$max:"$age"},//分组的最大年龄
+            minAge:{$min:"$age"},//分组的最小年龄
+            avgAge:{$avg:"$age"},//求分组的平均年龄
+            sumAge:{$sun:"$age"},//求分组的总的年龄和
+            names:{$push:"$name"},//将姓名添加到数组中(姓名是分组的里面的)
+            dataStr:{$dateToString:{format:"%Y-%m-%d",date:"$birthday"}},//格式化日期
+        }
+    },{
+        $sort:{
+            avgAge:1//按平均年龄排序 
+        }
+    },{
+        $unwind:"$hobby",//将hobby数组字段的每一项都当做一条数据输出
+    },{
+        $limit:每一页数据条数
+    },{
+        $skip:起始索引 
+    },{
+        $sample:3,//随机返回3条数据
+    }
 ])
 ```
