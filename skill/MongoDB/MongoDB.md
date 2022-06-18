@@ -33,6 +33,9 @@ show dbs
 
 删除数据库
 db.dropDatabase()
+
+修改名称
+mongodb不能直接修改数据库名称
 ```
 
 ## 集合操作
